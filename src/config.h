@@ -157,7 +157,7 @@ static void (*bartabmonfns[])(Monitor *) = { NULL /* , customlayoutfn */ };
 static const char font[]                 = "monospace 10";
 #else
 static const char *fonts[]               = {
-	"Iosevka:style=Medium:size=16",
+	"Iosevka:style=Medium:size=15",
 	"Iosevka Nerd Font Mono:style=Medium:size=21",
 };
 #endif // BAR_PANGO_PATCH
@@ -508,7 +508,7 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 
-	RULE(.class = "kitty", .isfloating = 1)
+	RULE(.class = "konsole", .isfloating = 1)
 	//RULE(.class = "Alacritty", .isfloating = 0)
 	RULE(.class = "Gpick", .isfloating = 1, .iscentered = 1)
 	RULE(.class = "Lxappearance", .isfloating = 1, .iscentered = 1)
@@ -516,7 +516,7 @@ static const Rule rules[] = {
 	RULE(.class = "Protonvpn", .isfloating = 1)
 
 	RULE(.class = "org.wezfurlong.wezterm", .tags = 1 << 0, .switchtag = 1) // tag-1
-	RULE(.class = "Alacritty", .tags = 1 << 0, .switchtag = 1) // tag-1
+	RULE(.class = "kitty", .tags = 1 << 0, .switchtag = 1) // tag-1
 	RULE(.class = "st-256color", .tags = 1 << 0, .switchtag = 1) // tag-1
 	RULE(.class = "Emacs", .tags = 1 << 0, .switchtag = 1)
 	RULE(.class = "Geany", .tags = 1 << 0, .switchtag = 1)
@@ -960,32 +960,38 @@ static const Key on_empty_keys[] = {
 #endif // ON_EMPTY_KEYS_PATCH
 
 
-/* Super + <any key> == system main shortcuts
- 	 Super + Shift + <any key> == system main shortcuts
-	 Super + Ctrl + Shift + <any key> == system low priority shortcuts
-	 Super + Alt + Shift + <any key> == system low priority shortcuts
-	 Super + Alt + <any key> == application shortcuts
+/*
+ * Super + <any key> == system main shortcuts
+ * Super + Shift + <any key> == system main shortcuts
+ * Super + Ctrl + Shift + <any key> == system low priority shortcuts
+ * Super + Alt + Shift + <any key> == system low priority shortcuts
+ * Super + Alt + <any key> == application shortcuts
 */
 
 #include <X11/XF86keysym.h>
 
-static const char *termcmd[]  = { "alacritty", NULL };
-static const char *launcher_cmd[]  = { ".bin/rofi_run", NULL };
-static const char *scratchpad_cmd[]  = { ".bin/scratchpad", NULL };
+static const char *termcmd[]  = { "kitty", NULL };
 static const char *network_manager_cmd[]  = { "networkmanager_dmenu", NULL };
-static const char *theme_changer_cmd[]  = { ".bin/dwm/theme_changer", NULL };
-static const char *keybindings_cmd[]  = { ".bin/dwm/dwm_keybindings", NULL };
-// static const char *powermenu_cmd[]  = { ".bin/powermenu", NULL };
-static const char *powermenu_cmd[]  = { ".bin/dwm/dmenu_powermenu", NULL };
-static const char *clipboard_cmd[]  = { ".bin/clipboard", NULL };
-static const char *rofi_calc_cmd[]  = { ".bin/rofi_calc", NULL };
+static const char *lock_cmd[]  = { "betterlockscreen --lock", NULL };
 
-static const char *lock_cmd[]  = { "slock", NULL };
+static const char *scratchpad_cmd[]  = { ".config/dwm/scripts/scratchpad", NULL };
+static const char *scratchpad_pass_cmd[]  = { ".config/dwm/scripts/scratchpad_pass", NULL };
+static const char *theme_changer_cmd[]  = { ".config/dwm/scripts/theme_changer", NULL };
+static const char *keybindings_cmd[]  = { ".config/dwm/scripts/keymaps", NULL };
+static const char *powermenu_cmd[]  = { ".config/dwm/scripts/powermenu", NULL };
+static const char *launcher_cmd[]  = { ".config/dwm/scripts/rofi_run", NULL };
+static const char *rofi_clip_cmd[]  = { ".config/dwm/scripts/rofi_clip", NULL };
+static const char *rofi_calc_cmd[]  = { ".config/dwm/scripts/rofi_calc", NULL };
+static const char *rofi_emoji_cmd[]  = { ".config/dwm/scripts/rofi_emoji", NULL };
+static const char *rofi_buku_cmd[]  = { ".config/dwm/scripts/rofi_buku", NULL };
+
 static const char *file_cmd[]  = { "thunar", NULL };
 static const char *firefox_cmd[]  = { "firefox", NULL };
 static const char *chromium_cmd[]  = { "chromium", NULL };
-static const char *nvim_cmd[]  = { "alacritty", "-e", "nvim", NULL };
-static const char *btop_cmd[]  = { "alacritty", "-e", "btop", NULL };
+
+static const char *file_cli_cmd[]  = { "kitty", "felix", NULL };
+static const char *nvim_cmd[]  = { "kitty", "nvim", NULL };
+static const char *btop_cmd[]  = { "kitty", "btop", NULL };
 
 
 static const Key keys[] = {
@@ -1000,12 +1006,12 @@ static const Key keys[] = {
   { MODKEY | ControlMask,         XK_g,          spawn,                  SHCMD("gpick") },
   
   //---------- Applications (super + alt) ----------//
-  { MODKEY | ALTKEY,              XK_f,          spawn,                  {.v = file_cmd } },
+  { MODKEY | ALTKEY,              XK_t,          spawn,                  {.v = file_cmd } },
+  { MODKEY | ALTKEY,              XK_f,          spawn,                  {.v = file_cli_cmd } },
   { MODKEY | ALTKEY,              XK_b,          spawn,                  {.v = chromium_cmd } },
   { MODKEY | ALTKEY,              XK_e,          spawn,                  {.v = firefox_cmd } },
   { MODKEY | ALTKEY,              XK_v,          spawn,                  {.v = nvim_cmd } },
   { MODKEY | ALTKEY,              XK_h,          spawn,                  {.v = btop_cmd } },
-  { MODKEY | ALTKEY,              XK_n,          spawn,                  SHCMD("alacritty -e bash ~/.bin/nnn_run -T -v") },
 
   { 0,                            XK_Print,      spawn,                  SHCMD("flameshot full -p $HOME/Pictures/SS/") },
   { MODKEY,                       XK_Print,      spawn,                  SHCMD("flameshot gui") },
@@ -1017,28 +1023,33 @@ static const Key keys[] = {
   { 0,              XF86XK_MonBrightnessUp,      spawn,                  SHCMD("brightnessctl -d \"intel_backlight\" set +2%") },
   { MODKEY,                       XK_F2,         spawn,                  SHCMD("brightnessctl -d \"intel_backlight\" set +2%") },
 
-  { 0,              XF86XK_AudioLowerVolume,     spawn,                  SHCMD("pactl set-sink-volume 0 -5%") },
-  { 0,              XF86XK_AudioRaiseVolume,     spawn,                  SHCMD("pactl set-sink-volume 0 +5%") },
-  { 0,              XF86XK_AudioMute,            spawn,                  SHCMD("pactl set-sink-mute 0 toggle") },
-  { MODKEY,                       XK_F5,         spawn,                  SHCMD("pactl set-sink-volume 0 -5%") },
-  { MODKEY,                       XK_F6,         spawn,                  SHCMD("pactl set-sink-volume 0 +5%") },
-  { MODKEY,                       XK_F7,         spawn,                  SHCMD("pactl set-sink-mute 0 toggle") },
+  { 0,              XF86XK_AudioLowerVolume,     spawn,                  SHCMD("pulsemixer --change-volume -5 --max-volume 100") },
+  { 0,              XF86XK_AudioRaiseVolume,     spawn,                  SHCMD("pulsemixer --change-volume +5 --max-volume 100") },
+  { 0,              XF86XK_AudioMute,            spawn,                  SHCMD("pulsemixer --toggle-mute") },
+  { MODKEY,                       XK_F5,         spawn,                  SHCMD("pulsemixer --change-volume -5 --max-volume 100") },
+  { MODKEY,                       XK_F6,         spawn,                  SHCMD("pulsemixer --change-volume +5 --max-volume 100") },
+  { MODKEY,                       XK_F7,         spawn,                  SHCMD("pulsemixer --toggle-mute") },
 
   { MODKEY,                       XK_F9,         spawn,                  SHCMD("nmcli radio all on && notify-send \"Turned on wifi\"") },
   { MODKEY,                       XK_F10,        spawn,                  SHCMD("nmcli radio all off && notify-send \"Turned off wifi\"") },
 
 
   //---------- System shortcuts (super / super + shift) ----------//
+	{ MODKEY,                       XK_Return,     spawn,                  {.v = termcmd } },
 	{ MODKEY,                       XK_l,          spawn,                  {.v = lock_cmd } },
-	{ MODKEY,                       XK_d,          spawn,                  {.v = launcher_cmd } },
 	{ MODKEY,                       XK_n,          spawn,                  {.v = network_manager_cmd } },
+
+	{ MODKEY | ShiftMask,           XK_Return,     spawn,                  {.v = scratchpad_cmd } },
+	{ MODKEY | ShiftMask,           XK_BackSpace,  spawn,                  {.v = scratchpad_pass_cmd } },
 	{ MODKEY,                       XK_t,          spawn,                  {.v = theme_changer_cmd } },
 	{ MODKEY,                       XK_k,          spawn,                  {.v = keybindings_cmd } },
 	{ MODKEY,                       XK_x,          spawn,                  {.v = powermenu_cmd } },
-	{ MODKEY,                       XK_h,          spawn,                  {.v = clipboard_cmd } },
+	{ MODKEY,                       XK_d,          spawn,                  {.v = launcher_cmd } },
 	{ MODKEY,                       XK_r,          spawn,                  {.v = rofi_calc_cmd } },
-	{ MODKEY,                       XK_Return,     spawn,                  {.v = termcmd } },
-	{ MODKEY | ShiftMask,           XK_Return,     spawn,                  {.v = scratchpad_cmd } },
+	{ MODKEY,                       XK_h,          spawn,                  {.v = rofi_clip_cmd } },
+	{ MODKEY,                       XK_e,          spawn,                  {.v = rofi_emoji_cmd } },
+	{ MODKEY,                       XK_h,          spawn,                  {.v = rofi_clip_cmd } },
+	{ MODKEY | ShiftMask,           XK_b,          spawn,                  {.v = rofi_buku_cmd } },
 
 	#if KEYMODES_PATCH
 	{ MODKEY,                       XK_Escape,     setkeymode,             {.ui = COMMANDMODE} },

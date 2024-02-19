@@ -13,10 +13,10 @@
 Here are some details about my setup:
 
 - OS: [Arch Linux](https://archlinux.org/)
-- Terminal: [Alacritty](https://github.com/alacritty/alacritty)
+- Terminal: [Kitty](https://github.com/kovidgoyal/kitty)
 - Shell: [Fish](https://fishshell.com/)
 - WM: [dwm-flexipatch](https://github.com/bakkeby/dwm-flexipatch)
-- Login Manager: [lemurs](https://github.com/coastalwhite/lemurs)
+- Login Manager: [sddm](https://github.com/sddm/sddm)
 - Editor: [nvim](https://github.com/neovim/neovim)
 
 ---
@@ -29,7 +29,6 @@ Here are some details about my setup:
 - Dropdown Menu: [tdrop](https://github.com/noctuid/tdrop)
 - Notification Daemon: [Linux Notification Center](https://github.com/phuhl/linux_notification_center)
 - AUR helper: [Paru](https://github.com/Morganamilo/paru)
-- Power Management: [Xfce Power Manger](https://docs.xfce.org/xfce/xfce4-power-manager/start)
 - Brightness Control: [brightnessctl](https://github.com/Hummer12007/brightnessctl)
 - Compositor: [picom](https://github.com/yshui/picom)
 
@@ -41,7 +40,7 @@ Here are some details about my setup:
 
 ---
 
-- File Manager: [nnn](https://github.com/jarun/nnn) and [Thunar](https://docs.xfce.org/xfce/thunar/start)
+- File Manager: [felix](https://github.com/kyoheiu/felix) and [Thunar](https://docs.xfce.org/xfce/thunar/start)
 - Ebook Reader: [zathura](https://github.com/pwmt/zathura)
 - Image Viewer: [qView](https://github.com/jurplel/qView)
 - Video Player: [mpv](https://github.com/mpv-player/mpv)
@@ -144,6 +143,7 @@ You may choose not to install any of these and but doing so might make some thin
   - `cd ~/.config/dmenu && sudo make install`
 - Create a desktop entry for dwm
   - `sudo vim /usr/share/xsessions/dwm.desktop`
+
   ```
   [Desktop Entry]
   Encoding=UTF-8
