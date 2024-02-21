@@ -383,6 +383,7 @@ Type=XSession
 - [ ] Give credit to proper persons and projects
 - [x] ~~Write my own neovim config~~
 - [ ] Update the README
+- [ ] Update rofi to look like dmenu
 
 </details>
 
