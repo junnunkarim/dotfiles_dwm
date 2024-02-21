@@ -1,9 +1,9 @@
 <h1 align="center"><i><u>~/dotfiles</u></i></h1>
 <h2 align="center"><i><u>Needs Rewrite</u></i></h2>
 
-<h2 align="center"><u>This repo will undergo a full restructuring process</u></h2>
-
-> Check the **Screenshot** section for updated screenshots
+> [!CAUTION]
+>
+> <h4>Repo under heavy-reconstruction</h4>
 
 ![img](/ss/dwm_gruvbox_cozy-night.png)
 ![img](/ss/dwm_nord_catppuccin-macchiato.png)
@@ -50,31 +50,6 @@ Here are some details about my setup:
 - Clipboard Manager: [greenclip](https://github.com/erebe/greenclip)
 - Calculator: [rofi-calc](https://github.com/svenstaro/rofi-calc)
 
-# TODO
-
-- [x] ~~Switch to [xrdb patch](https://dwm.suckless.org/patches/xrdb/) for theme switching~~
-- [x] ~~Fix the issue with hardcoded path~~
-- [x] ~~Create a list of keybindings~~
-- [ ] Explain installation procedure and how everything works
-  - [x] ~~Mention the mandatory and optional dependencies~~
-  - [x] ~~Make a detailed guide for archlinux~~
-  - [ ] Make guides for fedora and debian
-- [x] ~Redo setup on an updated version of dwm-flexipatch~
-- [ ] Explain the features of this setup
-- [x] ~Switch to rofi from dmenu (but keep dmenu as an alternative)~
-- [ ] Make new colorschemes
-  - [x] ~~nord~~
-  - [x] ~~dracula~~
-  - [x] ~~catppuccin~~
-  - [x] ~~rose-pine~~
-  - [x] ~~everblush~~
-  - [ ] kanagawa
-- [ ] Rice Firefox or switch to vieb
-- [ ] Create conky and eww widgets
-- [ ] Remove unused patches
-- [ ] Give credit to proper persons and projects
-- [x] ~~Write my own neovim config~~
-
 # Dependencies
 
 <details>
@@ -118,41 +93,61 @@ You may choose not to install any of these and but doing so might make some thin
 
 ### Mandatory Steps
 
-> **WARNING!!! Backup your dotfiles from your home directory. These steps below will overwrite your configs.**
+> [!WARNING]
+>
+> Backup your dotfiles from your home directory. These steps below will overwrite your configs.**  
 
-> **WARNING! This rice only has been on a 1920x1080 resolution display.**
+> [!WARNING]
+>
+> This rice only has been on a 1920x1080 resolution display.**
 
-> **If you want to use my dotfiles then it is highly recommended to fork this repo as I might heavily change it overtime.**
-
+> [!NOTE]
+>
+> If you want to use my dotfiles then it is highly recommended to fork this repo as I might heavily change it overtime.**
+>
 > If you don't want to use my configs for programs other than dwm and dmenu, then manually change the `~/.bin/dwm/theme_changer` or else things might get out of control
 
 - Clone this repo to your preferred directory and cd into it - `git clone https://github.com/junnunkarim/dotfiles-linux && cd dotfiles-linux`
 
 - Install mandatory dependencies
-  - `sudo pacman -Su --needed base-devel coreutils xorg alacritty lua feh ttf-iosevka-nerd ttc-iosevka wmctrl`
-  - Install luastatus
+
+```sh
+sudo pacman -Su --needed base-devel coreutils xorg alacritty lua feh ttf-iosevka-nerd ttc-iosevka wmctrl
+```
+
+- Install luastatus
     - `sudo pacman -Su --needed cmake yajl python-docutils`
-    - Continue from here - [luastatus](https://github.com/shdown/luastatus#installation)
+    - Follow installation steps from here - [luastatus](https://github.com/shdown/luastatus#installation)
+
 - Copy necessary configs -
   - `cp -rf .bin .Xresources .xinitrc ~`
     - If you won't use my bashrc then add `.bin` to your $PATH variable
     - **Do not copy `.xsession` as it will change your keyboard layout to dvorak.**
   - `cp -rf .config/alacritty .config/dwm .config/rofi .config/wallpaper ~/.config/`
-- Build dwm and dmenu
-  - `cd ~/.config/dwm && sudo make install`
-  - `cd ~/.config/dmenu && sudo make install`
-- Create a desktop entry for dwm
-  - `sudo vim /usr/share/xsessions/dwm.desktop`
 
-  ```
-  [Desktop Entry]
-  Encoding=UTF-8
-  Name=dwm
-  Comment=the dynamic window manager
-  Exec=dwm
-  Icon=dwm
-  Type=XSession
-  ```
+- Build dwm and dmenu
+
+```sh
+cd ~/.config/dwm && sudo make install
+cd ~/.config/dmenu && sudo make install
+```
+
+- Create a desktop entry for dwm
+
+```sh
+sudo vim /usr/share/xsessions/dwm.desktop
+```
+
+```
+[Desktop Entry]
+Encoding=UTF-8
+Name=dwm
+Comment=the dynamic window manager
+Exec=dwm
+Icon=dwm
+Type=XSession
+```
+
 - Open `$HOME/.config/dwm/config.h` in a text editor and modify the keybindings to your needs
 - Extract the gtk themes from `.themes` directory to your `$HOME/.themes` directory
 - Login to dwm using a display manager
@@ -160,7 +155,9 @@ You may choose not to install any of these and but doing so might make some thin
 
 ### Optional steps
 
-> **For each options below, make sure that you are in the dotfiles-linux directory**
+> [!WARNING]
+>
+> **For each options below, make sure that you are in the dotfiles-linux directory**  
 
 - Install paru (AUR helper)
   - `git clone https://aur.archlinux.org/paru.git`
@@ -203,13 +200,16 @@ You may choose not to install any of these and but doing so might make some thin
 
 # Default Keybindings
 
-> **Standards** <br>
-> super + [any key] == system main shortcuts <br>
-> super + shift + [any key] == system main shortcuts <br>
-> super + ctrl + shift + [any key] == system low priority shortcuts <br>
-> super + alt + shift + [any key] == system low priority shortcuts <br>
-> super + alt + [any num or alphabet key] == open applications <br>
-> super + ctrl + [any num or alpabet key] == open other programs or scripts <br>
+> [!NOTE]
+>
+> **Standards**  
+>
+> super + [any key] == system main shortcuts  
+> super + shift + [any key] == system main shortcuts  
+> super + ctrl + shift + [any key] == system low priority shortcuts  
+> super + alt + shift + [any key] == system low priority shortcuts  
+> super + alt + [any num or alphabet key] == open applications  
+> super + ctrl + [any num or alpabet key] == open other programs or scripts  
 
 <details>
 <summary><b>Keybindings</b></summary>
@@ -272,7 +272,7 @@ You may choose not to install any of these and but doing so might make some thin
 # Active dwm Patches
 
 <details>
-<summary><b>click here</b></summary>
+<summary><b>Show Patches</b></summary>
 
 - BAR_AWESOMEBAR_PATCH
 - BAR_LTSYMBOL_PATCH
@@ -313,33 +313,37 @@ You may choose not to install any of these and but doing so might make some thin
 
 # Screenshots
 
-<details>
-<summary><b>click here</b></summary>
+> [!WARNING]
+>
+> **Overtime the screenshots might get outdated.**  
 
-## Catppuccin (Macchiato)
+<details>
+<summary><b>Reveal those glorious screenshots</b></summary>
+
+<h3 align="center"><u>Catppuccin (Macchiato)</u></h3>
 
 ![img](/ss/dwm_catppuccin_macchiato_1.png)
 ![img](/ss/dwm_catppuccin_macchiato_2.png)
 ![img](/ss/dwm_catppuccin_macchiato_3.png)
 
-## Cozy-Night
+<h3 align="center"><u>Cozy-Night</u></h3>
 
 ![img](/ss/dwm_cozy-night_1.png)
 ![img](/ss/dwm_cozy-night_4.png)
 
-## Dracula
+<h3 align="center"><u>Dracula</u></h3>
 
 ![img](/ss/dwm_dracula_1.png)
 ![img](/ss/dwm_dracula_2.png)
 ![img](/ss/dwm_dracula_3.png)
 
-## Gruvbox
+<h3 align="center"><u>Gruvbox</u></h3>
 
 ![img](/ss/dwm_gruvbox_1.png)
 ![img](/ss/dwm_gruvbox_2.png)
 ![img](/ss/dwm_gruvbox_3.png)
 
-## Nord
+<h3 align="center"><u>Nord</u></h3>
 
 ![img](/ss/dwm_nord_1.png)
 ![img](/ss/dwm_nord_2.png)
@@ -351,6 +355,36 @@ You may choose not to install any of these and but doing so might make some thin
 
 - [[dwm] Well, what do you say?](https://www.reddit.com/r/unixporn/comments/un7we2/dwm_well_what_do_you_say/?utm_source=share&utm_medium=web2x&context=3)
 - [[dwm] Hurry! Take your medication, we're going to stargaze at the top of the mountain!](https://www.reddit.com/r/unixporn/comments/vv2ssi/dwm_hurry_take_your_medication_were_going_to/?utm_source=share&utm_medium=web2x&context=3)
+
+# TODO
+
+<details>
+<summary><h4>Reveal stuffs that needs to be implemented</h4></summary>
+
+- [x] ~~Switch to [xrdb patch](https://dwm.suckless.org/patches/xrdb/) for theme switching~~
+- [x] ~~Fix the issue with hardcoded path~~
+- [x] ~~Create a list of keybindings~~
+- [x] ~~Explain installation procedure and how everything works~~
+  - [x] ~~Mention the mandatory and optional dependencies~~
+  - [x] ~~Make a detailed guide for archlinux~~
+- [x] ~Redo setup on an updated version of dwm-flexipatch~
+- [ ] Explain the features of this setup
+- [x] ~Switch to rofi from dmenu (but keep dmenu as an alternative)~
+- [ ] Make new colorschemes
+  - [x] ~~nord~~
+  - [x] ~~dracula~~
+  - [x] ~~catppuccin~~
+  - [x] ~~rose-pine~~
+  - [x] ~~everblush~~
+  - [ ] kanagawa
+- [ ] Rice Firefox or switch to vieb
+- [ ] Create conky and eww widgets
+- [ ] Remove unused patches
+- [ ] Give credit to proper persons and projects
+- [x] ~~Write my own neovim config~~
+- [ ] Update the README
+
+</details>
 
 # Credit
 
