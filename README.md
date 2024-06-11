@@ -1,5 +1,5 @@
 <h1 align="center"><i><u>~/dotfiles</u></i></h1>
-<h2 align="center"><i><u>Needs Rewrite</u></i></h2>
+<h2 align="center"><i><u>Rewrite Needed!</u></i></h2>
 
 > [!CAUTION]
 >

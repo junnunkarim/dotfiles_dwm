@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-_rofi () {
-    rofi -dmenu -i -theme $HOME/.config/dwm/external_configs/rofi/buku.rasi -no-levenshtein-sort -width 1000 "$@"
+_rofi() {
+  rofi -dmenu -i -theme $HOME/.config/dwm/external_configs/rofi/buku.rasi -no-levenshtein-sort -width 1000 "$@"
 }
 
 # display settings
-display_type=3
-max_str_width=30
+display_type=2
+max_str_width=50
 
 # keybindings
 switch_view="Alt+Tab"

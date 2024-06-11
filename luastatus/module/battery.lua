@@ -1,26 +1,27 @@
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/dwm/luastatus/colorscheme/?.lua"
 local color = require("color")
 
-widget = luastatus.require_plugin('battery-linux').widget {
-  period = 2,
-  cb = function(t)
-    local symbol = ({
-      Charging    = '󰂅',
-      Discharging = '󱟤',
-    })[t.status] or ''
-    local rem_seg
-
-    if t.rem_time then
-      local h = math.floor(t.rem_time)
-      local m = math.floor(60 * (t.rem_time - h))
-      -- rem_seg = string.format('%2dh', h, m)
-    end
-    return {
-      string.format(
-        color.sep .. color.btt_ic_fg .. color.btt_ic_bg .. ' %s ' .. color.btt_fg .. color.btt_bg .. ' %3d%% ',
-        symbol,
-        t.capacity),
-      rem_seg,
-    }
-  end,
+local charging_status = {
+	Charging = "󰂅",
+	Discharging = "󱟤",
+	Full = "󱈏",
 }
+
+widget = luastatus.require_plugin("battery-linux").widget({
+	period = 2,
+	cb = function(t)
+		-- for k, v in pairs(t) do
+		-- 	print(k .. " " .. v)
+		-- end
+
+		local symbol = charging_status[t.status] or "󱈏"
+
+		local level = string.format(
+			color.sep .. color.btt_ic_fg .. color.btt_ic_bg .. " %s " .. color.btt_fg .. color.btt_bg .. " %0.0f%% ",
+			symbol,
+			t.capacity
+		)
+
+		return level
+	end,
+})

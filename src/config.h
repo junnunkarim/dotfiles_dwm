@@ -91,7 +91,7 @@ static const int vertpadbar              = 0;   /* vertical padding for statusba
 static const char buttonbar[]            = "󰕰";
 #endif // BAR_STATUSBUTTON_PATCH
 #if BAR_SYSTRAY_PATCH
-static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const unsigned int systrayspacing = 3;   /* systray spacing */
 static const int showsystray             = 1;   /* 0 means no systray */
 #endif // BAR_SYSTRAY_PATCH
 #if BAR_TAGLABELS_PATCH
@@ -100,7 +100,7 @@ static const char etagf[] = "[%s]";             /* format of an empty tag */
 static const int lcaselbl = 0;                  /* 1 means make tag label lowercase */
 #endif // BAR_TAGLABELS_PATCH
 #if BAR_UNDERLINETAGS_PATCH
-static const unsigned int ulinepad = 5;         /* horizontal padding between the underline and tag */
+static const unsigned int ulinepad = 6;         /* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke  = 2;     /* thickness / height of the underline */
 static const unsigned int ulinevoffset = 0;     /* how far above the bottom of the bar the line should appear */
 static const int ulineall = 0;                  /* 1 to show underline on all tags, 0 for just the active ones */
@@ -157,8 +157,8 @@ static void (*bartabmonfns[])(Monitor *) = { NULL /* , customlayoutfn */ };
 static const char font[]                 = "monospace 10";
 #else
 static const char *fonts[]               = {
-	"Iosevka:style=Medium:size=15",
-	"Iosevka Nerd Font Mono:style=Medium:size=21",
+	"Iosevka Term:style=medium:size=15",
+	"Iosevka Nerd Font Mono:style=medium:size=24",
 };
 #endif // BAR_PANGO_PATCH
 static const char dmenufont[]            = "monospace:size=10";
@@ -398,25 +398,22 @@ static const char *layoutmenu_cmd = "layoutmenu.sh";
 
 #if COOL_AUTOSTART_PATCH
 static const char *const autostart[] = {
-  //"bash", ".bin/dwm/dwm_statusbar_wrapper", NULL,
-  //"xrdb", "-merge", "-I$HOME", "~/.Xresources", NULL,
-  //"luastatus", "-b", "dwm", "-B", "separator=", ".config/dwm/luastatus/module/backlight.lua", ".config/dwm/luastatus/module/alsa.lua", ".config/dwm/luastatus/module/battery.lua", ".config/dwm/luastatus/module/wifi.lua", ".config/dwm/luastatus/module/time-date.lua", NULL,
-  //"setxkbmap", "-option", "caps:escape", NULL,
-  //"setxkbmap", "-model", "pc105", "-layout", "us,us", "-variant", "dvorak,", "-option", "grp:shifts_toggle,grp_led:caps", NULL,
-	"bash", ".fehbg", NULL,
+  "bash", ".config/dwm/scripts/dwm_statusbar", NULL,
+  "bash", ".fehbg", NULL,
   "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1", NULL,
-	"picom", NULL,
+  "picom", NULL,
+  "redshift", "-P", "-O", "5000", NULL,
+  "fcitx5", "-d", NULL,
   "greenclip", "daemon", NULL,
-	//"xfce4-power-manager", NULL,
-	//"/usr/lib/xfce-polkit/xfce-polkit", NULL,
-  //"nm-applet", NULL,
-  //"/usr/bin/gnome-keyring-daemon", "--start", NULL,
-	NULL /* terminate */
+  NULL /* terminate */
 };
 #endif // COOL_AUTOSTART_PATCH
 
 #if RENAMED_SCRATCHPADS_PATCH
-static const char *scratchpadcmd[] = {"s", "st", "-n", "spterm", NULL};
+static const char *scratch_term[] = {"s", "konsole", "--name", "scratch_term", NULL};
+static const char *scratch_pass[] = {"w", "keepassxc", NULL};
+static const char *scratch_top[] = {"t", "kitty", "--class", "scratch_top", "-e", "btop", NULL};
+
 #elif SCRATCHPADS_PATCH
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 static Sp scratchpads[] = {
@@ -458,8 +455,10 @@ static char tagicons[][NUMTAGS][MAX_TAGLEN] =
 static char *tagicons[][NUMTAGS] =
 #endif // NAMETAG_PATCH
 {
-	[DEFAULT_TAGS]        = { "", "󰉋", "", "", "", "󰍡", "󰊖", "", "󰆩" },
+	[DEFAULT_TAGS]        = { "", "󰅨", "󰉋", "", "", "", "󰍡", "󰊖", "" },
+	// [ALTERNATIVE_TAGS]    = { "", "", "", "", "", "", "", "", "" },
 	[ALTERNATIVE_TAGS]    = { "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "󰎼" },
+	// [ALTERNATIVE_TAGS]    = { "", "", "", "", "", "", "", "", "" },
 	[ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
 };
 
@@ -508,51 +507,65 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 
-	RULE(.class = "konsole", .isfloating = 1)
 	//RULE(.class = "Alacritty", .isfloating = 0)
+	RULE(.class = "konsole", .isfloating = 1)
 	RULE(.class = "Gpick", .isfloating = 1, .iscentered = 1)
 	RULE(.class = "Lxappearance", .isfloating = 1, .iscentered = 1)
 	RULE(.class = "Xfce-polkit", .isfloating = 1, .iscentered = 1)
 	RULE(.class = "Protonvpn", .isfloating = 1)
+	RULE(.class = "KeePassXC", .isfloating = 1, .iscentered = 1)
 
-	RULE(.class = "org.wezfurlong.wezterm", .tags = 1 << 0, .switchtag = 1) // tag-1
 	RULE(.class = "kitty", .tags = 1 << 0, .switchtag = 1) // tag-1
+	RULE(.class = "term_top", .tags = 1 << 0, .switchtag = 1) // tag-1
+	RULE(.class = "Alacritty", .tags = 1 << 0, .switchtag = 1) // tag-1
 	RULE(.class = "st-256color", .tags = 1 << 0, .switchtag = 1) // tag-1
-	RULE(.class = "Emacs", .tags = 1 << 0, .switchtag = 1)
-	RULE(.class = "Geany", .tags = 1 << 0, .switchtag = 1)
-	RULE(.class = "jetbrains-idea-ce", .tags = 1 << 0, .switchtag = 1, .iscentered = 1)
+	RULE(.class = "org.wezfurlong.wezterm", .tags = 1 << 0, .switchtag = 1) // tag-1
 
-	RULE(.class = "Pcmanfm", .tags = 1 << 1, .switchtag = 1) // tag-2
-	RULE(.class = "Thunar", .tags = 1 << 1, .switchtag = 1, .iscentered = 1) // tag-2
-	RULE(.class = "qBittorrent", .tags = 1 << 1, .switchtag = 1)
+	RULE(.class = "Geany", .tags = 1 << 1, .switchtag = 1)
+	RULE(.class = "code-oss", .tags = 1 << 1, .switchtag = 1)
+	RULE(.class = "Emacs", .tags = 1 << 1, .switchtag = 1)
+	RULE(.class = "term_nvim", .tags = 1 << 1, .switchtag = 1)
+	RULE(.class = "jetbrains-idea-ce", .tags = 1 << 1, .switchtag = 1, .iscentered = 1)
+	RULE(.class = "jetbrains-pycharm", .tags = 1 << 1, .switchtag = 1, .iscentered = 1)
+	RULE(.class = "jetbrains-dataspell", .tags = 1 << 1, .switchtag = 1, .iscentered = 1)
 
-	RULE(.class = "Chromium", .tags = 1 << 2, .switchtag = 1, .iscentered = 1) // tag-3
-	RULE(.class = "firefox", .tags = 1 << 2, .switchtag = 1, .iscentered = 1)
-	RULE(.class = "Nyxt", .tags = 1 << 2, .switchtag = 1) // tag-3
-	RULE(.class = "Vieb", .tags = 1 << 2, .switchtag = 1)
+	RULE(.class = "Thunar", .tags = 1 << 2, .switchtag = 1, .iscentered = 1) // tag-2
+	RULE(.class = "Pcmanfm", .tags = 1 << 2, .switchtag = 1) // tag-2
+	RULE(.class = "term_felix", .tags = 1 << 2, .switchtag = 1) // tag-2
+	RULE(.class = "qBittorrent", .tags = 1 << 2, .switchtag = 1)
 
-	RULE(.class = "Gimp", .tags = 1 << 3, .switchtag = 1, .isfloating = 1, .iscentered = 1) // tag-4
-	RULE(.class = "obs", .tags = 1 << 3, .switchtag = 1, .iscentered = 1)
-	RULE(.class = "vlc", .tags = 1 << 3, .switchtag = 1)
-	RULE(.class = "mpv", .tags = 1 << 3, .switchtag = 1)
+	RULE(.class = "Chromium", .tags = 1 << 3, .switchtag = 1, .iscentered = 1) // tag-3
+	RULE(.class = "firefox", .tags = 1 << 3, .switchtag = 1, .iscentered = 1)
+	RULE(.class = "Nyxt", .tags = 1 << 3, .switchtag = 1) // tag-3
+	RULE(.class = "Vieb", .tags = 1 << 3, .switchtag = 1)
 
-	RULE(.class = "calibre", .tags = 1 << 4, .switchtag = 1) // tag-5
-	RULE(.class = "Zathura", .tags = 1 << 4, .switchtag = 1) // tag-5
-	RULE(.class = "sioyek", .tags = 1 << 4, .switchtag = 1) // tag-5
-	RULE(.class = "DesktopEditors", .tags = 1 << 4, .switchtag = 1) // tag-5
+	RULE(.class = "Gimp", .tags = 1 << 4, .switchtag = 1, .isfloating = 1, .iscentered = 1) // tag-4
+	RULE(.class = "obs", .tags = 1 << 4, .switchtag = 1, .iscentered = 1)
+	RULE(.class = "vlc", .tags = 1 << 4, .switchtag = 1)
+	RULE(.class = "mpv", .tags = 1 << 4, .switchtag = 1)
 
-	RULE(.class = "KotatogramDesktop", .tags = 1 << 5, .switchtag = 1) // tag-6
-	RULE(.class = "TelegramDesktop", .tags = 1 << 5, .switchtag = 1) // tag-6
+	RULE(.class = "calibre", .tags = 1 << 5, .switchtag = 1) // tag-5
+	RULE(.class = "Zathura", .tags = 1 << 5, .switchtag = 1) // tag-5
+	RULE(.class = "sioyek", .tags = 1 << 5, .switchtag = 1) // tag-5
+	RULE(.class = "DesktopEditors", .tags = 1 << 5, .switchtag = 1) // tag-5
+
+	RULE(.class = "KotatogramDesktop", .tags = 1 << 6, .switchtag = 1) // tag-6
+	RULE(.class = "TelegramDesktop", .tags = 1 << 6, .switchtag = 1) // tag-6
 	
-	RULE(.class = "Ryujinx", .tags = 1 << 6, .switchtag = 1, .isfloating = 1) // tag-6
-	RULE(.class = "yuzu", .tags = 1 << 6, .switchtag = 1, .isfloating = 1) // tag-6
-	RULE(.class = "retroarch", .tags = 1 << 6, .switchtag = 1, .isfloating = 0) // tag-6
-																																			//
-	RULE(.class = "GParted", .tags = 1 << 7, .switchtag = 1, .isfloating = 1, .iscentered = 1) // tag-8
-	RULE(.class = "Xfce4-power-manager-settings", .tags = 1 << 7, .switchtag = 1, .isfloating = 1, .iscentered = 1)
+	RULE(.class = "Ryujinx", .tags = 1 << 7, .switchtag = 1, .isfloating = 1) // tag-6
+	RULE(.class = "yuzu", .tags = 1 << 7, .switchtag = 1, .isfloating = 1) // tag-6
+	RULE(.class = "retroarch", .tags = 1 << 7, .switchtag = 1, .isfloating = 0) // tag-6
+
+	RULE(.class = "GParted", .tags = 1 << 8, .switchtag = 1, .isfloating = 1, .iscentered = 1) // tag-8
+	RULE(.class = "lxappearance", .tags = 1 << 8, .switchtag = 1, .isfloating = 1, .iscentered = 1) // tag-8
+	RULE(.class = "Virt-manager", .tags = 1 << 8, .switchtag = 1, .isfloating = 1, .iscentered = 1) // tag-8
+	RULE(.class = "Xfce4-power-manager-settings", .tags = 1 << 8, .switchtag = 1, .isfloating = 1, .iscentered = 1)
 
 	#if RENAMED_SCRATCHPADS_PATCH
-	RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
+	RULE(.instance = "scratch_term", .scratchkey = 's', .isfloating = 1, .iscentered = 1)
+	RULE(.instance = "keepassxc", .scratchkey = 'w', .isfloating = 1, .iscentered = 1)
+	RULE(.instance = "scratch_top", .scratchkey = 't', .isfloating = 1, .iscentered = 1)
+
 	#elif SCRATCHPADS_PATCH
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
 	#endif // SCRATCHPADS_PATCH
@@ -595,31 +608,42 @@ static const Inset default_inset = {
  *    widthfunc, drawfunc, clickfunc - providing bar module width, draw and click functions
  *    name - does nothing, intended for visual clue and for logging / debugging
  */
+
 static const BarRule barrules[] = {
 	/* monitor   bar    alignment         widthfunc                 drawfunc                clickfunc                hoverfunc                name */
+
 	#if BAR_STATUSBUTTON_PATCH
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_stbutton,           draw_stbutton,          click_stbutton,          NULL,                    "statusbutton" },
 	#endif // BAR_STATUSBUTTON_PATCH
+
+
 	#if BAR_POWERLINE_TAGS_PATCH
 	{  0,        0,     BAR_ALIGN_LEFT,   width_pwrl_tags,          draw_pwrl_tags,         click_pwrl_tags,         NULL,                    "powerline_tags" },
 	#endif // BAR_POWERLINE_TAGS_PATCH
+
 	#if BAR_TAGS_PATCH
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_tags,               draw_tags,              click_tags,              hover_tags,              "tags" },
 	#endif // BAR_TAGS_PATCH
+
 	#if BAR_TAGLABELS_PATCH
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_taglabels,          draw_taglabels,         click_taglabels,         NULL,                    "taglabels" },
 	#endif // BAR_TAGLABELS_PATCH
+
 	#if BAR_TAGGRID_PATCH
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_taggrid,            draw_taggrid,           click_taggrid,           NULL,                    "taggrid" },
 	#endif // BAR_TAGGRID_PATCH
+
 	#if BAR_SYSTRAY_PATCH
 	{  0,        0,     BAR_ALIGN_RIGHT,  width_systray,            draw_systray,           click_systray,           NULL,                    "systray" },
 	#endif // BAR_SYSTRAY_PATCH
+
 	#if BAR_LTSYMBOL_PATCH
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_ltsymbol,           draw_ltsymbol,          click_ltsymbol,          NULL,                    "layout" },
 	#endif // BAR_LTSYMBOL_PATCH
+
+
 	#if BAR_STATUSCOLORS_PATCH && BAR_STATUSCMD_PATCH
-	{ statusmon, 0,     BAR_ALIGN_RIGHT,  width_statuscolors,       draw_statuscolors,      click_statuscmd,         NULL,                    "statuscolors" },
+	{ statusmon, 0,     BAR_ALIGN_RIGHT  width_statuscolors,       draw_statuscolors,      click_statuscmd,         NULL,                    "statuscolors" },
 	#elif BAR_STATUSCOLORS_PATCH
 	{ statusmon, 0,     BAR_ALIGN_RIGHT,  width_statuscolors,       draw_statuscolors,      click_statuscolors,      NULL,                    "statuscolors" },
 	#elif BAR_STATUS2D_PATCH && BAR_STATUSCMD_PATCH
@@ -633,9 +657,12 @@ static const BarRule barrules[] = {
 	#elif BAR_STATUS_PATCH
 	{ statusmon, 0,     BAR_ALIGN_RIGHT,  width_status,             draw_status,            click_status,            NULL,                    "status" },
 	#endif // BAR_STATUS2D_PATCH | BAR_STATUSCMD_PATCH
+
 	#if XKB_PATCH
 	{  0,        0,     BAR_ALIGN_RIGHT,  width_xkb,                draw_xkb,               click_xkb,               NULL,                    "xkb" },
 	#endif // XKB_PATCH
+
+
 	#if BAR_FLEXWINTITLE_PATCH
 	{ -1,        0,     BAR_ALIGN_NONE,   width_flexwintitle,       draw_flexwintitle,      click_flexwintitle,      NULL,                    "flexwintitle" },
 	#elif BAR_TABGROUPS_PATCH
@@ -647,6 +674,8 @@ static const BarRule barrules[] = {
 	#elif BAR_WINTITLE_PATCH
 	{ -1,        0,     BAR_ALIGN_NONE,   width_wintitle,           draw_wintitle,          click_wintitle,          NULL,                    "wintitle" },
 	#endif // BAR_TABGROUPS_PATCH | BAR_AWESOMEBAR_PATCH | BAR_FANCYBAR_PATCH | BAR_WINTITLE_PATCH
+
+
 	#if BAR_EXTRASTATUS_PATCH
 	#if BAR_STATUSCOLORS_PATCH && BAR_STATUSCMD_PATCH
 	{ statusmon, 1,     BAR_ALIGN_CENTER, width_statuscolors_es,    draw_statuscolors_es,   click_statuscmd_es,      NULL,                    "statuscolors_es" },
@@ -664,6 +693,8 @@ static const BarRule barrules[] = {
 	{ statusmon, 1,     BAR_ALIGN_CENTER, width_status_es,          draw_status_es,         click_status,            NULL,                    "status_es" },
 	#endif // BAR_STATUS2D_PATCH | BAR_STATUSCMD_PATCH
 	#endif // BAR_EXTRASTATUS_PATCH
+
+
 	#if BAR_FLEXWINTITLE_PATCH
 	#if BAR_WINTITLE_HIDDEN_PATCH
 	{ -1,        1,  BAR_ALIGN_RIGHT_RIGHT, width_wintitle_hidden,  draw_wintitle_hidden,   click_wintitle_hidden,   NULL,                    "wintitle_hidden" },
@@ -972,11 +1003,11 @@ static const Key on_empty_keys[] = {
 
 static const char *termcmd[]  = { "kitty", NULL };
 static const char *network_manager_cmd[]  = { "networkmanager_dmenu", NULL };
-static const char *lock_cmd[]  = { "betterlockscreen --lock", NULL };
+static const char *lock_cmd[]  = { "betterlockscreen", "-l", NULL };
 
-static const char *scratchpad_cmd[]  = { ".config/dwm/scripts/scratchpad", NULL };
-static const char *scratchpad_pass_cmd[]  = { ".config/dwm/scripts/scratchpad_pass", NULL };
-static const char *theme_changer_cmd[]  = { ".config/dwm/scripts/theme_changer", NULL };
+// static const char *scratchpad_cmd[]  = { ".config/dwm/scripts/scratchpad", NULL };
+// static const char *scratchpad_pass_cmd[]  = { ".config/dwm/scripts/scratchpad_pass", NULL };
+static const char *theme_changer_cmd[]  = { ".config/dwm/scripts/change_colorscheme.py", NULL };
 static const char *keybindings_cmd[]  = { ".config/dwm/scripts/keymaps", NULL };
 static const char *powermenu_cmd[]  = { ".config/dwm/scripts/powermenu", NULL };
 static const char *launcher_cmd[]  = { ".config/dwm/scripts/rofi_run", NULL };
@@ -989,9 +1020,9 @@ static const char *file_cmd[]  = { "thunar", NULL };
 static const char *firefox_cmd[]  = { "firefox", NULL };
 static const char *chromium_cmd[]  = { "chromium", NULL };
 
-static const char *file_cli_cmd[]  = { "kitty", "felix", NULL };
-static const char *nvim_cmd[]  = { "kitty", "nvim", NULL };
-static const char *btop_cmd[]  = { "kitty", "btop", NULL };
+static const char *file_cli_cmd[]  = { "kitty", "--class", "term_felix", "-e", "fx", NULL };
+static const char *nvim_cmd[]  = { "kitty", "--class", "term_nvim", "-e", "nvim", NULL };
+static const char *btop_cmd[]  = { "kitty", "--class", "term_top", "-e", "btop", NULL };
 
 
 static const Key keys[] = {
@@ -1039,8 +1070,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_l,          spawn,                  {.v = lock_cmd } },
 	{ MODKEY,                       XK_n,          spawn,                  {.v = network_manager_cmd } },
 
-	{ MODKEY | ShiftMask,           XK_Return,     spawn,                  {.v = scratchpad_cmd } },
-	{ MODKEY | ShiftMask,           XK_BackSpace,  spawn,                  {.v = scratchpad_pass_cmd } },
+	// { MODKEY | ShiftMask,           XK_Return,     spawn,                  {.v = scratchpad_cmd } },
+	// { MODKEY | ShiftMask,           XK_BackSpace,  spawn,                  {.v = scratchpad_pass_cmd } },
 	{ MODKEY,                       XK_t,          spawn,                  {.v = theme_changer_cmd } },
 	{ MODKEY,                       XK_k,          spawn,                  {.v = keybindings_cmd } },
 	{ MODKEY,                       XK_x,          spawn,                  {.v = powermenu_cmd } },
@@ -1262,7 +1293,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,           XK_Return,     mirrorlayout,           {0} },          /* flextile, flip master and stack areas */
 	#endif // FLEXTILE_DELUXE_LAYOUT
 	//{ MODKEY,                       XK_space,      setlayout,              {0} },
-	{ MODKEY,             XK_space,      togglefloating,         {0} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefloating,         {0} },
 
 	#if MAXIMIZE_PATCH
 	{ MODKEY|ControlMask|ShiftMask, XK_h,          togglehorizontalmax,    {0} },
@@ -1275,9 +1306,10 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Escape,     togglenomodbuttons,     {0} },
 	#endif // NO_MOD_BUTTONS_PATCH
 	#if RENAMED_SCRATCHPADS_PATCH
-	{ MODKEY,                       XK_grave,      togglescratch,          {.v = scratchpadcmd } },
-	{ MODKEY|ControlMask,           XK_grave,      setscratch,             {.v = scratchpadcmd } },
-	{ MODKEY|ShiftMask,             XK_grave,      removescratch,          {.v = scratchpadcmd } },
+	{ MODKEY|ShiftMask,             XK_Return,     togglescratch,          {.v = scratch_term } },
+	{ MODKEY|ShiftMask,             XK_BackSpace,  togglescratch,          {.v = scratch_pass } },
+	{ MODKEY|ShiftMask,             XK_h,  togglescratch,          {.v = scratch_top } },
+	// { MODKEY|ShiftMask,             XK_grave,      removescratch,          {.v = scratchpadcmd } },
 	#elif SCRATCHPADS_PATCH
 	{ MODKEY,                       XK_grave,      togglescratch,          {.ui = 0 } },
 	{ MODKEY|ControlMask,           XK_grave,      setscratch,             {.ui = 0 } },
@@ -1356,7 +1388,7 @@ static const Key keys[] = {
 	{ MODKEY|Mod4Mask|ControlMask,  XK_period,     tagswapmon,             {.i = -1 } },
 	#endif // TAGSWAPMON_PATCH
 	#if BAR_ALTERNATIVE_TAGS_PATCH
-	{ MODKEY,                       XK_n,          togglealttag,           {0} },
+	{ MODKEY,                       XK_a,          togglealttag,           {0} },
 	#endif // BAR_ALTERNATIVE_TAGS_PATCH
 	#if NAMETAG_PATCH
 	{ MODKEY|ShiftMask,             XK_n,          nametag,                {0} },

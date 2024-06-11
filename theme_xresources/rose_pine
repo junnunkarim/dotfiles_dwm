@@ -35,7 +35,7 @@ dwm.titleselbgcolor            : base
 dwm.titleselbordercolor        : gold_1
 dwm.titleselfloatcolor         : iris
 
-dwm.tagsnormfgcolor		         : base
+dwm.tagsnormfgcolor            : base
 dwm.tagsnormbgcolor            : rose_1
 dwm.tagsnormbordercolor        : gold_1
 dwm.tagsnormfloatcolor         : surface
@@ -50,7 +50,7 @@ dwm.hidselfgcolor              : love
 dwm.hidnormbgcolor             : base
 dwm.hidselbgcolor              : base
 
-dwm.urgfgcolor								 : base
-dwm.urgbgcolor								 : love
-dwm.urgbordercolor						 : love
-dwm.urgfloatcolor							 : pine
+dwm.urgfgcolor                 : base
+dwm.urgbgcolor                 : love
+dwm.urgbordercolor             : love
+dwm.urgfloatcolor              : pine
