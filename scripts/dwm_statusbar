@@ -9,15 +9,18 @@
 #   ~/.config/dwm/luastatus/module/wifi.lua \
 #   ~/.config/dwm/luastatus/module/time-date.lua
 
-while true; do
-  luastatus -b dwm -B separator= \
-    ~/.config/dwm/luastatus/module/backlight.lua \
-    ~/.config/dwm/luastatus/module/alsa.lua \
-    ~/.config/dwm/luastatus/module/battery.lua \
-    ~/.config/dwm/luastatus/module/wifi.lua \
-    ~/.config/dwm/luastatus/module/time-date.lua
+# kill previous process and run again
+run() {
+  pkill -x "$1"
 
-  if [ $? -ne 129 ]; then # not SIGHUP
-    break
+  if ! pgrep -f "$1"; then
+    "$@"
   fi
-done
+}
+
+run "luastatus" -b dwm -B separator= \
+  ~/.config/dwm/luastatus/module/backlight.lua \
+  ~/.config/dwm/luastatus/module/alsa.lua \
+  ~/.config/dwm/luastatus/module/battery.lua \
+  ~/.config/dwm/luastatus/module/wifi.lua \
+  ~/.config/dwm/luastatus/module/time-date.lua

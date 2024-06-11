@@ -2,17 +2,13 @@ package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/dwm/luastat
 local color = require("color")
 
 local time = string.format(
-	"%s",
-	os.date(
-		color.sep .. color.time_ic_fg .. color.time_ic_bg .. " 󰥔 " .. color.time_fg .. color.time_bg .. " %I:%M %p "
-	)
+	color.sep .. color.time_ic_fg .. color.time_ic_bg .. " 󰥔 " .. color.time_fg .. color.time_bg .. " %s ",
+	os.date("%I:%M %p")
 ) -- time
 
 local date = string.format(
-	"%s",
-	os.date(
-		color.sep .. color.date_ic_fg .. color.date_ic_bg .. "  " .. color.date_fg .. color.date_bg .. " %a, %d %b "
-	)
+	color.sep .. color.date_ic_fg .. color.date_ic_bg .. "  " .. color.date_fg .. color.date_bg .. " %s ",
+	os.date("%a, %d %b")
 ) --date
 
 widget = {

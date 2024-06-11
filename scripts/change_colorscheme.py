@@ -240,34 +240,18 @@ def reload_dwm() -> None:
 
     subprocess.run(xsetroot_command, text=True, check=False)
 
-    # # luastatus process ids
-    # get_process_id = [
-    #     "pgrep",
+    # restart_luastatus = [
+    #     "pkill",
+    #     "-HUP",
+    #     "-x",
     #     "luastatus",
     # ]
-    #
-    # select = subprocess.run(get_process_id, text=True, capture_output=True, check=False)
-    #
-    # if select.returncode == 0:
-    #     # split the string into separate process ids
-    #     process_ids = select.stdout.replace("\n", " ").split()
-    #
-    #     command = ["kill", "-9"] + process_ids
-    #
-    #     subprocess.run(command, text=True, check=False)
+    # subprocess.run(restart_luastatus, text=True, check=False)
 
     restart_luastatus = [
-        "pkill",
-        "-HUP",
-        "-x",
-        "luastatus",
+        f"{path('~/.config/dwm/scripts/dwm_statusbar').expanduser()}",
     ]
-    subprocess.run(restart_luastatus, text=True, check=False)
-    #
-    # restart_luastatus = [
-    #     f"{path('~/.config/dwm/scripts/dwm_statusbar').expanduser()}",
-    # ]
-    # subprocess.Popen(restart_luastatus, start_new_session=True)
+    subprocess.Popen(restart_luastatus, start_new_session=True)
 
 
 def reload_wm(wm: str) -> None:

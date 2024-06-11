@@ -1022,7 +1022,6 @@ static const char *chromium_cmd[]  = { "chromium", NULL };
 
 static const char *file_cli_cmd[]  = { "kitty", "--class", "term_felix", "-e", "fx", NULL };
 static const char *nvim_cmd[]  = { "kitty", "--class", "term_nvim", "-e", "nvim", NULL };
-static const char *btop_cmd[]  = { "kitty", "--class", "term_top", "-e", "btop", NULL };
 
 
 static const Key keys[] = {
@@ -1042,7 +1041,6 @@ static const Key keys[] = {
   { MODKEY | ALTKEY,              XK_b,          spawn,                  {.v = chromium_cmd } },
   { MODKEY | ALTKEY,              XK_e,          spawn,                  {.v = firefox_cmd } },
   { MODKEY | ALTKEY,              XK_v,          spawn,                  {.v = nvim_cmd } },
-  { MODKEY | ALTKEY,              XK_h,          spawn,                  {.v = btop_cmd } },
 
   { 0,                            XK_Print,      spawn,                  SHCMD("flameshot full -p $HOME/Pictures/SS/") },
   { MODKEY,                       XK_Print,      spawn,                  SHCMD("flameshot gui") },
