@@ -1,0 +1,11 @@
+*{
+  transparent: #282a3670;
+  background: #221919;
+  background-1: #322828;
+  foreground: #f0dede;
+  foreground-1: #9f8c8c;
+  selected: #ffb3b4;
+  selected-1: #e6bdbd;
+  active: #e5c18d;
+  urgent: #ba1a1a;
+}

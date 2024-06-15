@@ -20,7 +20,7 @@ configuration {
 
 
 /*---------- Theme Config ----------*/
-@import "~/.config/dwm/external_configs/rofi/colors/colors.rasi"
+@import "~/.config/dwm/external_configs/rofi/colors.rasi"
 
 * {
   font: "Iosevka Nerd Font Mono Bold 15";

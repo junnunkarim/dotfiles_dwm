@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-rofi \
-  -show drun \
-  -theme ~/.config/dwm/external_configs/rofi/launcher.rasi

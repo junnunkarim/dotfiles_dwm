@@ -24,8 +24,8 @@
   background-1: var(black);
   foreground: var(white);
   foreground-1: var(gray2);
-  selected: var(green2);
-  selected-1: var(green2);
-  active: var(aqua2);
+  selected: var(orange2);
+  selected-1: var(orange2);
+  active: var(yellow2);
   urgent: var(red1);
 }

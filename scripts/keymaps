@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#prompt="dmenu -l 15 "
-prompt="rofi -dmenu -i -theme ~/.config/rofi/script_menu_1.rasi "
+prompt="dmenu -h 45 -l 15 -W 1000 -X 460 -Y 200 -p Keybindings"
+# prompt="rofi -dmenu -i -theme ~/.config/rofi/script_menu_1.rasi "
 
 option="
 super + b                     toggle bar on/off
