@@ -1,4 +1,5 @@
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/dwm/luastatus/colorscheme/?.lua"
+
 local color = require("color")
 
 local prefix = color.sep .. color.vol_ic_fg .. color.vol_ic_bg

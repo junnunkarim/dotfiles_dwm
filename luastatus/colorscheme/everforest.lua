@@ -1,40 +1,46 @@
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/dwm/luastatus/colorscheme/helper/?.lua"
 
-local c = require("colorschemes")["gruvbox"]
+local c = require("colorschemes")["everforest"]
 local fcolor = require("fcolor")
 
 local color = {
-	-- set colors to modules
+	-- separator
 	sep = fcolor("bg", c["black"]) .. fcolor("fg", c["black"]) .. "|", -- separator
 
+	-- date
 	date_ic_fg = fcolor("fg", c["black"]),
-	date_ic_bg = fcolor("bg", c["orange2"]),
+	date_ic_bg = fcolor("bg", c["yellow2"]),
 	date_fg = fcolor("fg", c["black"]),
-	date_bg = fcolor("bg", c["orange1"]),
+	date_bg = fcolor("bg", c["yellow1"]),
 
+	-- time
 	time_ic_fg = fcolor("fg", c["black"]),
-	time_ic_bg = fcolor("bg", c["yellow1"]),
-	time_fg = fcolor("fg", c["yellow1"]),
+	time_ic_bg = fcolor("bg", c["aqua1"]),
+	time_fg = fcolor("fg", c["aqua2"]),
 	time_bg = fcolor("bg", c["black"]),
 
+	-- wifi
 	wifi_ic_fg = fcolor("fg", c["black"]),
-	wifi_ic_bg = fcolor("bg", c["blue2"]),
+	wifi_ic_bg = fcolor("bg", c["blue1"]),
 	wifi_fg = fcolor("fg", c["blue1"]),
 	wifi_bg = fcolor("bg", c["black"]),
 
-	btt_ic_fg = fcolor("fg", c["black"]), -- battery
-	btt_ic_bg = fcolor("bg", c["aqua2"]),
-	btt_fg = fcolor("fg", c["aqua1"]),
+	-- battery
+	btt_ic_fg = fcolor("fg", c["black"]),
+	btt_ic_bg = fcolor("bg", c["red1"]),
+	btt_fg = fcolor("fg", c["red2"]),
 	btt_bg = fcolor("bg", c["black"]),
 
-	vol_ic_fg = fcolor("fg", c["purple1"]), -- volume
+	-- volume
+	vol_ic_fg = fcolor("fg", c["orange1"]),
 	vol_ic_bg = fcolor("bg", c["black"]),
-	vol_fg = fcolor("fg", c["purple1"]),
+	vol_fg = fcolor("fg", c["orange1"]),
 	vol_bg = fcolor("bg", c["black"]),
 
-	brgn_ic_fg = fcolor("fg", c["green1"]), -- brightness
+	-- brightness
+	brgn_ic_fg = fcolor("fg", c["orange2"]),
 	brgn_ic_bg = fcolor("bg", c["black"]),
-	brgn_fg = fcolor("fg", c["green1"]),
+	brgn_fg = fcolor("fg", c["orange2"]),
 	brgn_bg = fcolor("bg", c["black"]),
 }
 
