@@ -51,7 +51,7 @@ togglewin(const Arg *arg)
 	Client *c = (Client*)arg->v;
 	if (!c)
 		return;
-	if (c == selmon->sel)
+	if (!HIDDEN(c) && c == selmon->sel)
 		hide(c);
 	else {
 		if (HIDDEN(c))
@@ -80,9 +80,6 @@ showhideclient(const Arg *arg)
 	if (!c)
 		return;
 
-	#if WARP_PATCH
-	force_warp = 1;
-	#endif // WARP_PATCH
 	if (HIDDEN(c)) {
 		show(c);
 		focus(c);

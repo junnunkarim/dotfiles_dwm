@@ -1,4 +1,4 @@
-This dwm 6.4 (ba56fe9, 2022-10-28) side project has a different take on dwm patching. It uses preprocessor directives to decide whether or not to include a patch during build time. Essentially this means that this build, for better or worse, contains both the patched _and_ the original code. The aim being that you can select which patches to include and the build will contain that code and nothing more. Due to the complexity of some of the patches dwm-flexipatch has diverged from mainstream dwm by making some core patches non-optional for maintenance reasons. For the classic dwm-flexipatch build refer to branch [dwm-flexipatch-1.0](https://github.com/bakkeby/dwm-flexipatch/tree/dwm-flexipatch-1.0).
+This dwm 6.5 (061e9fe, 2024-03-19) side project has a different take on dwm patching. It uses preprocessor directives to decide whether or not to include a patch during build time. Essentially this means that this build, for better or worse, contains both the patched _and_ the original code. The aim being that you can select which patches to include and the build will contain that code and nothing more. Due to the complexity of some of the patches dwm-flexipatch has diverged from mainstream dwm by making some core patches non-optional for maintenance reasons. For the classic dwm-flexipatch build refer to branch [dwm-flexipatch-1.0](https://github.com/bakkeby/dwm-flexipatch/tree/dwm-flexipatch-1.0).
 
 For example to include the `alpha` patch then you would only need to flip this setting from 0 to 1 in [patches.h](https://github.com/bakkeby/dwm-flexipatch/blob/master/patches.def.h):
 ```c
@@ -18,6 +18,20 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
 ---
 
 ### Changelog:
+
+2024-01-31 - Added the placedir patch
+
+2023-12-22 - Added the do-not-die-on-color-allocation-failure patch
+
+2023-12-01 - Added the sendmoncenter patch
+
+2023-11-12 - Added the focusmaster-return patch variant
+
+2023-06-27 - Added the focusfollowmouse and unmanaged patches
+
+2023-06-25 - Added the toggletopbar patch
+
+2023-01-18 - Added the view history patch
 
 2022-10-08 - Added the alt-tab patch
 
@@ -349,6 +363,10 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
       - i.e. if topbar is 0 then dmenu will appear at the bottom and if 1 then dmenu will appear at
         the top
 
+   - do-not-die-on-color-allocation-failure
+      - avoids dwm terminating (dying) on color allocation failures
+      - useful for the xrdb (xresources) and status2d patches
+
    - [dragcfact](https://github.com/bakkeby/patches/wiki/dragcfact/)
       - lets you resize clients' size (i.e. modify cfact) by holding modkey + shift + right-click
         and dragging the mouse
@@ -429,8 +447,16 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
       - allows focusing on clients based on direction (up, down, left, right) instead of client
         order
 
+   - [focusfollowmouse](https://github.com/bakkeby/patches/wiki/focusfollowmouse)
+      - the window under the mouse cursor will receive focus when changing tags, closing windows or
+        moving client out of view (as opposed to the most recently focused client)
+
    - [focusmaster](https://dwm.suckless.org/patches/focusmaster/)
       - a simple patch that just puts focus back to the master client
+
+   - [focusmaster-return](https://dwm.suckless.org/patches/focusmaster/)
+      - a simple patch that just puts focus back to the master client
+      - additionally allows focus to be switched back to the previous client
 
    - [focusonclick](https://dwm.suckless.org/patches/focusonclick/)
       - this patch makes you switch focus only by mouse click and not sloppy (focus follows mouse
@@ -577,6 +603,9 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
    - [pertag](https://dwm.suckless.org/patches/pertag/)
       - adds nmaster, mfact, layouts and more per tag rather than per monitor
 
+   - [placedir](https://github.com/bakkeby/patches/wiki/placedir)
+      - allows tiled windows to be moved in any direction (up, down, left, right)
+
    - [placemouse](https://github.com/bakkeby/patches/wiki/placemouse)
       - lets the user change the position of a client in the stack using the mouse.
 
@@ -614,7 +643,7 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
    - [rotatestack](https://dwm.suckless.org/patches/rotatestack/)
       - let's you rotate through the stack using keyboard shortcuts
 
-   - [roundedcorners](https://github.com/mitchweaver/suckless/blob/master/dwm/patches/mitch-06-rounded_corners-f04cac6d6e39cd9e3fc4fae526e3d1e8df5e34b2.patch)
+   - [roundedcorners](https://github.com/mitchweaver/suckless/blob/master/dwm/inactive/mitch-06-rounded_corners-f04cac6d6e39cd9e3fc4fae526e3d1e8df5e34b2.patch)
       - adds rounded corners to client windows
 
    - [savefloats](https://dwm.suckless.org/patches/save_floats/)
@@ -633,6 +662,9 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
 
    - [selfrestart](https://dwm.suckless.org/patches/selfrestart/)
       - restart dwm without the unnecessary dependency of an external script
+
+   - [sendmoncenter](https://dwm.suckless.org/patches/sendmoncenter/)
+      - floating windows being sent to another monitor will be centered
 
    - [sendmon\_keepfocus](https://github.com/bakkeby/patches/wiki/sendmon_keepfocus/)
       - minor patch that allow clients to keep focus when being sent to another monitor
@@ -770,15 +802,18 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
    - [togglefullscreen](https://github.com/bakkeby/patches/wiki/togglefullscreen/)
       - allows you to toggle fullscreen on and off using a single shortcut key
 
+   - [togglelayout](https://github.com/bakkeby/patches/wiki/togglelayout)
+      - toggle layout using the same keyboard shortcuts to set the layout
+      - e.g. hitting `MOD+m` switches to monocle layout, hitting the same keybinding again brings
+        you back to the previous layout
+
    - [toggletag](https://github.com/bakkeby/patches/wiki/toggletag)
       - toggle tags using the same keyboard shortcuts to view tags
       - e.g. hitting `MOD+4` lets you view tag 4 and hitting the keybinding a second time brings
         you back to where you were before
 
-   - [togglelayout](https://github.com/bakkeby/patches/wiki/togglelayout)
-      - toggle layout using the same keyboard shortcuts to set the layout
-      - e.g. hitting `MOD+m` switches to monocle layout, hitting the same keybinding again brings
-        you back to the previous layout
+   - [toggletopbar](https://dwm.suckless.org/patches/toggletopbar/)
+      - allows for the bar position (top or bottom) to be toggled during runtime
 
    - [transfer](https://dwm.suckless.org/patches/transfer/)
       - lets you transfer the currently focused client between the master and stack area while
@@ -795,12 +830,21 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
       - resets isfloating on any visible windows that have it set and optionally also applies a
         layout
 
+   - [unmanaged](https://github.com/bakkeby/patches/wiki/unmanaged)
+      - adds a client rule that allows for windows to not be managed by the window manager
+      - this can be useful for external bars, widgets, launchers, docks, desktop icons and more
+
    - [~urgentborder~](https://dwm.suckless.org/patches/urgentborder/)
       - ~this patch makes "urgent" windows have different colors~
 
    - [vanitygaps](https://github.com/bakkeby/patches/blob/master/dwm/dwm-vanitygaps-6.2.diff)
       - adds configurable gaps between windows differentiating between outer, inner, horizontal and
         vertical gaps
+
+   - viewhistory
+      - adds a tag change history that is longer than the default current and previous tag
+      - `MOD`+Tab (`view(0)`) can be pressed multiple times to go further back to earlier tag
+        selections
 
    - [viewontag](https://dwm.suckless.org/patches/viewontag/)
       - follow a window to the tag it is being moved to
