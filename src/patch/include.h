@@ -11,6 +11,7 @@
 #include "bar_statusbutton.h"
 #include "bar_tags.h"
 #include "bar_wintitle.h"
+#include "bar_awesomebar.h"
 #include "bar_systray.h"
 #include "bar_wintitleactions.h"
 

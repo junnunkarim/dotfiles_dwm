@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 _rofi() {
-  rofi -dmenu -i -theme $HOME/.config/dwm/external_configs/rofi/buku.rasi -no-levenshtein-sort -width 1000 "$@"
+  rofi -dmenu -i -no-levenshtein-sort -width 1000 "$@"
 }
 
 # display settings

@@ -1,15 +1,15 @@
 #define black   #181926
-#define pn1 		#2e3440
-#define pn2 		#3b4252
-#define pn3 		#434c5e
-#define pn4 		#4c566a
-#define ss1 		#d8dee9
-#define ss2 		#e5e9f0
-#define ss3 		#eceff4
-#define frost1 	#8fbcbb
-#define frost2 	#88c0d0
-#define frost3 	#81a1c1
-#define frost4 	#5e81ac
+#define pn1     #2e3440
+#define pn2     #3b4252
+#define pn3     #434c5e
+#define pn4     #4c566a
+#define ss1     #d8dee9
+#define ss2     #e5e9f0
+#define ss3     #eceff4
+#define frost1  #8fbcbb
+#define frost2  #88c0d0
+#define frost3  #81a1c1
+#define frost4  #5e81ac
 #define aurora1 #bf616a
 #define aurora2 #d08770
 #define aurora3 #ebcb8b
@@ -36,7 +36,7 @@ dwm.titleselbgcolor            : pn1
 dwm.titleselbordercolor        : aurora3
 dwm.titleselfloatcolor         : aurora4
 
-dwm.tagsnormfgcolor		         : pn1
+dwm.tagsnormfgcolor            : pn1
 dwm.tagsnormbgcolor            : frost3
 dwm.tagsnormbordercolor        : frost3
 dwm.tagsnormfloatcolor         : pn1
@@ -51,7 +51,7 @@ dwm.hidselfgcolor              : aurora1
 dwm.hidnormbgcolor             : pn1
 dwm.hidselbgcolor              : pn1
 
-dwm.urgfgcolor								 : pn1
-dwm.urgbgcolor								 : aurora1
-dwm.urgbordercolor						 : aurora1
-dwm.urgfloatcolor							 : aurora4
+dwm.urgfgcolor                 : pn1
+dwm.urgbgcolor                 : aurora1
+dwm.urgbordercolor             : aurora1
+dwm.urgfloatcolor              : aurora4

@@ -38,7 +38,7 @@ dwm.titleselbgcolor            : black
 dwm.titleselbordercolor        : black
 dwm.titleselfloatcolor         : white
 
-dwm.tagsnormfgcolor		         : black
+dwm.tagsnormfgcolor            : black
 dwm.tagsnormbgcolor            : green1
 dwm.tagsnormbordercolor        : green1
 dwm.tagsnormfloatcolor         : black

@@ -1,2 +1,0 @@
-/* using colors.rasi as a middle-man because multiple rofi configs depend on it */
-@import "~/.config/dwm/external_configs/rofi/colorschemes/rose_pine.rasi"

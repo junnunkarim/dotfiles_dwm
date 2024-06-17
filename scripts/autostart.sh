@@ -1,19 +1,14 @@
 #!/bin/sh
 
-#[[ -f ~/.Xresources  ]] && xrdb -merge -I"$HOME" "$HOME"/.Xresources
-
-#/usr/bin/pipewire &
-#/usr/bin/pipewire-pulse &
-#/usr/bin/pipewire-media-session &
-
-#exec dwm 2> "$HOME"/.dwm.log
-#exec dwm
-
 run() {
   if ! pgrep -f "$1"; then
     "$@" &
   fi
 }
+
+# load dwm and dmenu colors from xresources
+# xrdb -merge -I"$HOME" ~/.config/dwm/xcolors_dwm/xcolors.xresources
+# xsetroot -name "fsignal:2"
 
 run "$HOME/.config/dwm/scripts/./dwm_statusbar"
 run "$HOME/.fehbg"

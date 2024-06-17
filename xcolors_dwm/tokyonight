@@ -37,7 +37,7 @@ dwm.titleselbgcolor            : black_night
 dwm.titleselbordercolor        : black_night
 dwm.titleselfloatcolor         : white
 
-dwm.tagsnormfgcolor		         : black_night
+dwm.tagsnormfgcolor            : black_night
 dwm.tagsnormbgcolor            : purple2
 dwm.tagsnormbordercolor        : purple
 dwm.tagsnormfloatcolor         : black_night
@@ -52,7 +52,7 @@ dwm.hidselfgcolor              : purple
 dwm.hidnormbgcolor             : black_night
 dwm.hidselbgcolor              : black_night
 
-dwm.urgfgcolor								 : black_night
-dwm.urgbgcolor								 : orange1
-dwm.urgbordercolor						 : orange1
-dwm.urgfloatcolor							 : purple2
+dwm.urgfgcolor                 : black_night
+dwm.urgbgcolor                 : orange1
+dwm.urgbordercolor             : orange1
+dwm.urgfloatcolor              : purple2
