@@ -117,7 +117,7 @@ dwm.selbordercolor             : mat_dwm_primary
 dwm.selfloatcolor              : mat_dwm_tertiary
 
 ! changes titlebar fg color when window is not focused or there is no window
-dwm.titlenormfgcolor           : mat_dwm_secondary
+dwm.titlenormfgcolor           : mat_dwm_on_surface_variant
 ! changes titlebar bg color when window is not focused or there is no window
 dwm.titlenormbgcolor           : mat_dwm_on_primary_fixed
 ! not needed
@@ -152,10 +152,15 @@ dwm.tagsselbordercolor         : mat_dwm_primary
 ! not needed
 dwm.tagsselfloatcolor          : mat_dwm_primary
 
-dwm.hidnormfgcolor             : mat_dwm_magenta
-dwm.hidselfgcolor              : mat_dwm_magenta
-dwm.hidnormbgcolor             : mat_dwm_primary
-dwm.hidselbgcolor              : mat_dwm_primary
+! changes titlebar fg color when window is hidden and not focused
+dwm.hidnormfgcolor             : mat_dwm_outline
+! changes titlebar bg color when window is hidden and not focused
+dwm.hidnormbgcolor             : mat_dwm_on_primary
+
+! changes titlebar fg color when window is hidden and focused
+dwm.hidselfgcolor              : mat_dwm_error
+! changes titlebar bg color when window is hidden and focused
+dwm.hidselbgcolor              : mat_dwm_on_primary
 
 ! changes tag fg color when there is a urgent window on that tag
 dwm.urgfgcolor                 : mat_dwm_on_error

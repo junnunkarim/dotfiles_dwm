@@ -3,7 +3,8 @@
 
 > [!CAUTION]
 >
-> <h4>Repo under heavy-reconstruction</h4>
+> <h4>Rewrite Complete!</h4>
+> <h4>Now onto Writing Documentation and Instructions.</h4>
 
 ![img](/ss/dwm_gruvbox_cozy-night.png)
 ![img](/ss/dwm_nord_catppuccin-macchiato.png)

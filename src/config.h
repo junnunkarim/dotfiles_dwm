@@ -41,8 +41,8 @@ static int floatindicatortype = INDICATOR_BOTTOM_BAR_SLIM;
 static const int quit_empty_window_count = 1; // only allow dwm to quit if no (<= count) windows are open
 //
 static const char *fonts[] = {
-  "Iosevka Term:style=medium:size=16",
-  "Iosevka Nerd Font Mono:style=medium:size=26",
+  "Iosevka:style=medium:size=16",
+  "Symbols Nerd Font Mono:style=medium:size=14",
 };
 // static const char dmenufont[] = "monospace:size=10";
 
@@ -119,6 +119,7 @@ static char *colors[][ColCount] = {
 static const char *scratch_term[] = {"s", "konsole", "--name", "scratch_term", NULL};
 static const char *scratch_pass[] = {"w", "keepassxc", NULL};
 static const char *scratch_top[] = {"t", "kitty", "--class", "scratch_top", "-e", "btop", NULL};
+static const char *scratch_docs[] = {"z", "zeal", "--name", "scratch_docs", NULL};
 
 
 /* Tags
@@ -207,6 +208,7 @@ static const Rule rules[] = {
   RULE(.class = "code-oss", .tags = 1 << 1, .switchtag = 1)
   RULE(.class = "Emacs", .tags = 1 << 1, .switchtag = 1)
   RULE(.class = "term_nvim", .tags = 1 << 1, .switchtag = 1)
+  RULE(.class = "neovide", .tags = 1 << 1, .switchtag = 1)
   RULE(.class = "jetbrains-idea-ce", .tags = 1 << 1, .switchtag = 1, .iscentered = 1)
   RULE(.class = "jetbrains-pycharm", .tags = 1 << 1, .switchtag = 1, .iscentered = 1)
   RULE(.class = "jetbrains-dataspell", .tags = 1 << 1, .switchtag = 1, .iscentered = 1)
@@ -214,7 +216,7 @@ static const Rule rules[] = {
   // tag - 3
   RULE(.class = "Thunar", .tags = 1 << 2, .switchtag = 1, .iscentered = 1)
   RULE(.class = "Pcmanfm", .tags = 1 << 2, .switchtag = 1)
-  RULE(.class = "term_felix", .tags = 1 << 2, .switchtag = 1)
+  RULE(.class = "term_file_manager", .tags = 1 << 2, .switchtag = 1)
   RULE(.class = "qBittorrent", .tags = 1 << 2, .switchtag = 1)
 
   // tag - 4
@@ -254,6 +256,7 @@ static const Rule rules[] = {
   RULE(.instance = "scratch_term", .scratchkey = 's', .isfloating = 1, .iscentered = 1)
   RULE(.instance = "keepassxc", .scratchkey = 'w', .isfloating = 1, .iscentered = 1)
   RULE(.instance = "scratch_top", .scratchkey = 't', .isfloating = 1, .iscentered = 1)
+  RULE(.instance = "scratch_docs", .scratchkey = 'z', .isfloating = 1, .iscentered = 1)
 };
 
 /* Bar rules allow you to configure what is shown where on the bar, as well as
@@ -321,6 +324,7 @@ static const Layout layouts[] = {
 
 // helper for spawning shell commands in the pre dwm-5.0 fashion
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+// #define SHCMD(cmd) { .v = (const char*[]){ "/user/bin/fish", "-c", cmd, NULL } }
 
 // commands to execute
 static const char *terminal_cmd[]  = { "kitty", NULL };
@@ -329,19 +333,24 @@ static const char *lockscreen_cmd[]  = { "betterlockscreen", "-l", NULL };
 
 static const char *dmenu_change_colorscheme_cmd[]  = { ".bin/window_manager/change_colorscheme.py", "-w", "dwm", "-m", "dmenu", NULL };
 static const char *dmenu_keybindings_cmd[]  = { ".bin/window_manager/dmenu_keybindings.py", "-w", "dwm", "-m", "dmenu", NULL };
+static const char *dmenu_window_switcher_cmd[]  = { ".bin/window_manager/dmenu_window_switcher.py", "-m", "dmenu", NULL };
 static const char *dmenu_powermenu_cmd[]  = { ".bin/window_manager/dmenu_powermenu.py", "-w", "dwm", "-m", "dmenu", NULL };
-static const char *dmenu_launcher_cmd[]  = { ".bin/window_manager/dmenu_launcher.py", "-w", "dwm", "-m", "dmenu", NULL };
+static const char *dmenu_run_cmd[]  = { ".bin/window_manager/dmenu_run.py", "-w", "dwm", "-m", "dmenu", "-t", "kitty", NULL };
 static const char *dmenu_clipboard_cmd[]  = { ".bin/window_manager/dmenu_clipboard.py", "-w", "dwm", "-m", "dmenu", NULL };
 static const char *dmenu_calculator_cmd[]  = { ".config/dwm/scripts/rofi_calc", NULL };
 static const char *dmenu_emoji_cmd[]  = { ".config/dwm/scripts/rofi_emoji", NULL };
-static const char *dmenu_bookmark_cmd[]  = { ".config/dwm/scripts/rofi_buku", NULL };
+static const char *dmenu_bookmark_cmd[]  = { ".bin/window_manager/dmenu_buku.py", "-m", "dmenu", "-md", "offline", NULL };
+static const char *dmenu_notes_cmd[]  = { ".bin/window_manager/dmenu_zk.py", "-m", "dmenu", "-t", "kitty", NULL };
 
 static const char *app_file_cmd[]  = { "thunar", NULL };
 static const char *app_firefox_cmd[]  = { "firefox", NULL };
 static const char *app_chromium_cmd[]  = { "chromium", NULL };
+static const char *app_message_cmd[]  = { "telegram-desktop", NULL };
+static const char *app_nvim_cmd[]  = { "neovide", NULL };
 
-static const char *cli_file_cmd[]  = { "kitty", "--class", "term_felix", "-e", "fx", NULL };
-static const char *cli_nvim_cmd[]  = { "kitty", "--class", "term_nvim", "-e", "nvim", NULL };
+static const char *cli_file_cmd[]  = { "kitty", "--class", "term_file_manager", "-e", "yazi", NULL };
+// static const char *cli_file_cmd[]  = { "kitty", "--class", "term_felix", "-e", "fx", NULL };
+// static const char *cli_nvim_cmd[]  = { "kitty", "--class", "term_nvim", "-e", "nvim", NULL };
 
 // for special keyboard keys
 #include <X11/XF86keysym.h>
@@ -382,8 +391,11 @@ static const Key keys[] = {
   { MODKEY|ALTKEY,              XK_b,          spawn,                  {.v = app_chromium_cmd } },
   //desc: super + alt + e | open browser (firefox)
   { MODKEY|ALTKEY,              XK_e,          spawn,                  {.v = app_firefox_cmd } },
+  //desc: super + alt + m | open message (telegram)
+  { MODKEY|ALTKEY,              XK_m,          spawn,                  {.v = app_message_cmd } },
   //desc: super + alt + v | open code editor (neovim)
-  { MODKEY|ALTKEY,              XK_v,          spawn,                  {.v = cli_nvim_cmd } },
+  // { MODKEY|ALTKEY,              XK_v,          spawn,                  {.v = cli_nvim_cmd } },
+  { MODKEY|ALTKEY,              XK_v,          spawn,                  {.v = app_nvim_cmd } },
 
   //desc: print-screen | take fullscreen screenshot
   { 0,                            XK_Print,      spawn,                  SHCMD("flameshot full -p $HOME/pictures/ss/") },
@@ -432,10 +444,13 @@ static const Key keys[] = {
   { MODKEY,                       XK_t,          spawn,                  {.v = dmenu_change_colorscheme_cmd } },
   //desc: super + k | show all keybindings (dmenu)
   { MODKEY,                       XK_k,          spawn,                  {.v = dmenu_keybindings_cmd } },
+  //desc: super + w | open window switcher (dmenu)
+  { MODKEY,                       XK_w,          spawn,                  {.v = dmenu_window_switcher_cmd } },
   //desc: super + x | open powermenu (dmenu)
   { MODKEY,                       XK_x,          spawn,                  {.v = dmenu_powermenu_cmd } },
   //desc: super + d | open application launcher (dmenu)
-  { MODKEY,                       XK_d,          spawn,                  {.v = dmenu_launcher_cmd } },
+  // { MODKEY,                       XK_d,          spawn,                  {.v = dmenu_launcher_cmd } },
+  { MODKEY,                       XK_d,          spawn,                  {.v = dmenu_run_cmd } },
   //desc: super + r | open calculator (dmenu)
   { MODKEY,                       XK_r,          spawn,                  {.v = dmenu_calculator_cmd } },
   //desc: super + h | open clipboard (dmenu)
@@ -444,6 +459,8 @@ static const Key keys[] = {
   { MODKEY,                       XK_e,          spawn,                  {.v = dmenu_emoji_cmd } },
   //desc: super + m | open bookmark manager (dmenu) (buku)
   { MODKEY,                       XK_m,          spawn,                  {.v = dmenu_bookmark_cmd } },
+  //desc: super + z | open notes manager (dmenu) (zk)
+  { MODKEY,                       XK_z,          spawn,                  {.v = dmenu_notes_cmd } },
 
   //desc: super + b | toggle bar on/off
   { MODKEY,                       XK_b,          togglebar,              {0} },
@@ -513,6 +530,9 @@ static const Key keys[] = {
   { MODKEY|ShiftMask,             XK_BackSpace,  togglescratch,          {.v = scratch_pass } },
   //desc: super + shift + h | toggle task-manager scratchpad
   { MODKEY|ShiftMask,             XK_h,          togglescratch,          {.v = scratch_top } },
+  //desc: super + shift + z | toggle documentation borwser scratchpad (zeal)
+  { MODKEY|ShiftMask,             XK_z,          togglescratch,          {.v = scratch_docs } },
+
   // { MODKEY|ControlMask,           XK_grave,      setscratch,             {.v = scratchpadcmd } },
   // { MODKEY|ShiftMask,             XK_grave,      removescratch,          {.v = scratchpadcmd } },
 
@@ -557,7 +577,7 @@ static const Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
   /* click                event mask           button          function        argument */
-  { ClkButton,            0,                   Button1,        spawn,          {.v = dmenu_launcher_cmd } },
+  { ClkButton,            0,                   Button1,        spawn,          {.v = dmenu_run_cmd } },
 
   { ClkLtSymbol,          0,                   Button1,        setlayout,      {0} },
   { ClkLtSymbol,          0,                   Button3,        setlayout,      {.v = &layouts[2]} },
