@@ -1,10 +1,10 @@
 <h1 align="center"><i><u>~/dotfiles</u></i></h1>
-<h2 align="center"><i><u>Rewrite Needed!</u></i></h2>
+<h2 align="center"><i><u>Rewrite Complete!</u></i></h2>
 
 > [!CAUTION]
 >
-> <h4>Rewrite Complete!</h4>
-> <h4>Now onto Writing Documentation and Instructions.</h4>
+> <h4>Documentation and Screenshots are OUTDATED!</h4>
+> <h4>Need to re-write documentation and upload new screenshots!</h4>
 
 ![img](/ss/dwm_gruvbox_cozy-night.png)
 ![img](/ss/dwm_nord_catppuccin-macchiato.png)
