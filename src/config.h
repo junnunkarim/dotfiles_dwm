@@ -42,7 +42,7 @@ static const int quit_empty_window_count = 1; // only allow dwm to quit if no (<
 //
 static const char *fonts[] = {
   "Iosevka:style=medium:size=16",
-  "Symbols Nerd Font Mono:style=medium:size=14",
+  "Symbols Nerd Font Mono:style=medium:size=13",
 };
 // static const char dmenufont[] = "monospace:size=10";
 
@@ -119,7 +119,7 @@ static char *colors[][ColCount] = {
 static const char *scratch_term[] = {"s", "konsole", "--name", "scratch_term", NULL};
 static const char *scratch_pass[] = {"w", "keepassxc", NULL};
 static const char *scratch_top[] = {"t", "kitty", "--class", "scratch_top", "-e", "btop", NULL};
-static const char *scratch_docs[] = {"z", "zeal", "--name", "scratch_docs", NULL};
+// static const char *scratch_docs[] = {"z", "zeal", "--name", "scratch_docs", NULL};
 
 
 /* Tags
@@ -151,7 +151,7 @@ static const char *scratch_docs[] = {"z", "zeal", "--name", "scratch_docs", NULL
  */
 static char *tagicons[][NUMTAGS] =
 {
-  [DEFAULT_TAGS] = { "", "󰅨", "󰉋", "", "", "", "󰍡", "󰊖", "" },
+  [DEFAULT_TAGS] = { "", "󰅨", "󰉋", "", "", "", "󰍡", "󰊖", "" },
   [ALTERNATIVE_TAGS] = { "A", "B", "C", "D", "E", "F", "G", "H", "I" },
   [ALT_TAGS_DECORATION] = { "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>" },
 };
@@ -195,6 +195,7 @@ static const Rule rules[] = {
   RULE(.class = "Xfce-polkit", .isfloating = 1, .iscentered = 1)
   RULE(.class = "Protonvpn", .isfloating = 1, .iscentered = 1)
   RULE(.class = "KeePassXC", .isfloating = 1, .iscentered = 1)
+  RULE(.class = "MEGAsync", .isfloating = 1, .iscentered = 1)
 
   // tag - 1
   RULE(.class = "kitty", .tags = 1 << 0, .switchtag = 1)
@@ -228,18 +229,22 @@ static const Rule rules[] = {
   // tag - 5
   RULE(.class = "Gimp", .tags = 1 << 4, .switchtag = 1, .isfloating = 1, .iscentered = 1)
   RULE(.class = "obs", .tags = 1 << 4, .switchtag = 1, .iscentered = 1)
-  RULE(.class = "vlc", .tags = 1 << 4, .switchtag = 1)
+  RULE(.class = "vlc", .tags = 1 << 4, .switchtag = 1, .iscentered = 1)
   RULE(.class = "mpv", .tags = 1 << 4, .switchtag = 1, .iscentered = 1)
+  RULE(.class = "FreeTube", .tags = 1 << 4, .switchtag = 1, .iscentered = 1)
 
   // tag - 6
   RULE(.class = "calibre", .tags = 1 << 5, .switchtag = 1)
   RULE(.class = "Zathura", .tags = 1 << 5, .switchtag = 1)
+  RULE(.class = "okular", .tags = 1 << 5, .switchtag = 1)
+  RULE(.class = "Zeal", .tags = 1 << 5, .switchtag = 1)
   RULE(.class = "sioyek", .tags = 1 << 5, .switchtag = 1)
   RULE(.class = "DesktopEditors", .tags = 1 << 5, .switchtag = 1)
 
   // tag - 7
   RULE(.class = "KotatogramDesktop", .tags = 1 << 6, .switchtag = 1)
   RULE(.class = "TelegramDesktop", .tags = 1 << 6, .switchtag = 1)
+  RULE(.class = "Session", .tags = 1 << 6, .switchtag = 1)
   
   // tag - 8
   RULE(.class = "Ryujinx", .tags = 1 << 7, .switchtag = 1, .isfloating = 1)
@@ -311,11 +316,11 @@ static const Layout layouts[] = {
   { MODKEY|ShiftMask, KEY, combotag, {.ui = 1 << TAG} }, \
   { MODKEY|ControlMask|ShiftMask, KEY, toggletag, {.ui = 1 << TAG} },
 
-#define STACKKEYS(MOD,ACTION) \
-  { MOD, XK_Tab,   ACTION##stack, {.i = INC(+1) } }, \
-  { MOD, XK_grave, ACTION##stack, {.i = INC(-1) } },
+#define STACKKEYS(MODIFIER_KEY,ACTION) \
+  { MODIFIER_KEY, XK_Tab,   ACTION##stack, {.i = INC(+1) } }, \
+  { MODIFIER_KEY, XK_grave, ACTION##stack, {.i = INC(-1) } }, \
+  { MODIFIER_KEY|ShiftMask, XK_Tab,     ACTION##stack, {.i = PREVSEL } },
   /*
-  { MOD, XK_s,     ACTION##stack, {.i = PREVSEL } }, \
   { MOD, XK_w,     ACTION##stack, {.i = 0 } }, \
   { MOD, XK_e,     ACTION##stack, {.i = 1 } }, \
   { MOD, XK_a,     ACTION##stack, {.i = 2 } }, \
@@ -335,12 +340,12 @@ static const char *dmenu_change_colorscheme_cmd[]  = { ".bin/window_manager/chan
 static const char *dmenu_keybindings_cmd[]  = { ".bin/window_manager/dmenu_keybindings.py", "-w", "dwm", "-m", "dmenu", NULL };
 static const char *dmenu_window_switcher_cmd[]  = { ".bin/window_manager/dmenu_window_switcher.py", "-m", "dmenu", NULL };
 static const char *dmenu_powermenu_cmd[]  = { ".bin/window_manager/dmenu_powermenu.py", "-w", "dwm", "-m", "dmenu", NULL };
-static const char *dmenu_run_cmd[]  = { ".bin/window_manager/dmenu_run.py", "-w", "dwm", "-m", "dmenu", "-t", "kitty", NULL };
+static const char *dmenu_run_cmd[]  = { ".bin/window_manager/dmenu_run.py","-m", "dmenu", "-t", "kitty", NULL };
 static const char *dmenu_clipboard_cmd[]  = { ".bin/window_manager/dmenu_clipboard.py", "-w", "dwm", "-m", "dmenu", NULL };
 static const char *dmenu_calculator_cmd[]  = { ".config/dwm/scripts/rofi_calc", NULL };
 static const char *dmenu_emoji_cmd[]  = { ".config/dwm/scripts/rofi_emoji", NULL };
-static const char *dmenu_bookmark_cmd[]  = { ".bin/window_manager/dmenu_buku.py", "-m", "dmenu", "-md", "offline", NULL };
-static const char *dmenu_notes_cmd[]  = { ".bin/window_manager/dmenu_zk.py", "-m", "dmenu", "-t", "kitty", NULL };
+static const char *dmenu_bookmark_cmd[]  = { ".bin/window_manager/dmenu_buku.py", "--menu", "dmenu", "--online-status", "offline", NULL };
+static const char *dmenu_notes_cmd[]  = { ".bin/window_manager/dmenu_zk.py", "--menu", "dmenu", "--terminal", "konsole", NULL };
 
 static const char *app_file_cmd[]  = { "thunar", NULL };
 static const char *app_firefox_cmd[]  = { "firefox", NULL };
@@ -356,7 +361,7 @@ static const char *cli_file_cmd[]  = { "kitty", "--class", "term_file_manager", 
 #include <X11/XF86keysym.h>
 
 static const Key keys[] = {
-  // NOTE: comments that starc with 'desc' are parsed by
+  // NOTE: comments that start with 'desc' are parsed by
   // a script to show keybindings in dmenu or similar program
 
   // modifier                     key            function                argument
@@ -516,7 +521,7 @@ static const Key keys[] = {
   { MODKEY,                       XK_c,          killclient,             {0} },
   //desc: super + shift + q | quit dwm
   { MODKEY|ShiftMask,             XK_q,          quit,                   {0} },
-  //desc: super + shift + q | restart dwm
+  //desc: super + shift + r | restart dwm
   { MODKEY|ShiftMask,             XK_r,          quit,                   {1} },
   //desc: super + shift + f5 | reload dwm colors
   { MODKEY|ShiftMask,             XK_F5,         xrdb,                   {.v = NULL } },
@@ -530,8 +535,8 @@ static const Key keys[] = {
   { MODKEY|ShiftMask,             XK_BackSpace,  togglescratch,          {.v = scratch_pass } },
   //desc: super + shift + h | toggle task-manager scratchpad
   { MODKEY|ShiftMask,             XK_h,          togglescratch,          {.v = scratch_top } },
-  //desc: super + shift + z | toggle documentation borwser scratchpad (zeal)
-  { MODKEY|ShiftMask,             XK_z,          togglescratch,          {.v = scratch_docs } },
+  // desc: super + shift + z | toggle documentation borwser scratchpad (zeal)
+  // { MODKEY|ShiftMask,             XK_z,          togglescratch,          {.v = scratch_docs } },
 
   // { MODKEY|ControlMask,           XK_grave,      setscratch,             {.v = scratchpadcmd } },
   // { MODKEY|ShiftMask,             XK_grave,      removescratch,          {.v = scratchpadcmd } },

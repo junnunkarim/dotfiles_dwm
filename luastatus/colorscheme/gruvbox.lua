@@ -18,8 +18,8 @@ local color = {
 	time_bg = fcolor("bg", c["black"]),
 
 	wifi_ic_fg = fcolor("fg", c["black"]),
-	wifi_ic_bg = fcolor("bg", c["blue2"]),
-	wifi_fg = fcolor("fg", c["blue1"]),
+	wifi_ic_bg = fcolor("bg", c["green2"]),
+	wifi_fg = fcolor("fg", c["green1"]),
 	wifi_bg = fcolor("bg", c["black"]),
 
 	btt_ic_fg = fcolor("fg", c["black"]), -- battery
@@ -32,9 +32,9 @@ local color = {
 	vol_fg = fcolor("fg", c["purple1"]),
 	vol_bg = fcolor("bg", c["black"]),
 
-	brgn_ic_fg = fcolor("fg", c["green1"]), -- brightness
+	brgn_ic_fg = fcolor("fg", c["red1"]), -- brightness
 	brgn_ic_bg = fcolor("bg", c["black"]),
-	brgn_fg = fcolor("fg", c["green1"]),
+	brgn_fg = fcolor("fg", c["red1"]),
 	brgn_bg = fcolor("bg", c["black"]),
 }
 

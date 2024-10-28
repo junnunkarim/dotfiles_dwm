@@ -1,3 +1,4 @@
+
 int
 width_status2d(Bar *bar, BarArg *a)
 {

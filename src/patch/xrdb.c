@@ -74,6 +74,9 @@ xrdb(const Arg *arg)
 		scheme[i] = drw_scm_create(drw, colors[i],
 		ColCount
 		);
+	if (systray) {
+		XMoveWindow(dpy, systray->win, -32000, -32000);
+	}
 	arrange(NULL);
 	focus(NULL);
 }

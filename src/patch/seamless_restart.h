@@ -13,3 +13,5 @@ static int getclientfields(Client *c);
 static void setclienttags(Client *c);
 static int getclienttags(Client *c);
 static int getlayoutindex(const Layout *layout);
+static void savewindowfloatposition(Client *c, Monitor *m);
+static int restorewindowfloatposition(Client *c, Monitor *m);
