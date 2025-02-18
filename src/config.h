@@ -119,6 +119,7 @@ static char *colors[][ColCount] = {
 static const char *scratch_term[] = {"s", "konsole", "--name", "scratch_term", NULL};
 static const char *scratch_pass[] = {"w", "keepassxc", NULL};
 static const char *scratch_top[] = {"t", "kitty", "--class", "scratch_top", "-e", "btop", NULL};
+static const char *scratch_calc[] = {"r", "qalculate-gtk", NULL};
 // static const char *scratch_docs[] = {"z", "zeal", "--name", "scratch_docs", NULL};
 
 
@@ -261,6 +262,7 @@ static const Rule rules[] = {
   RULE(.instance = "scratch_term", .scratchkey = 's', .isfloating = 1, .iscentered = 1)
   RULE(.instance = "keepassxc", .scratchkey = 'w', .isfloating = 1, .iscentered = 1)
   RULE(.instance = "scratch_top", .scratchkey = 't', .isfloating = 1, .iscentered = 1)
+  RULE(.instance = "qalculate-gtk", .scratchkey = 'r', .isfloating = 1, .iscentered = 1)
   RULE(.instance = "scratch_docs", .scratchkey = 'z', .isfloating = 1, .iscentered = 1)
 };
 
@@ -336,16 +338,67 @@ static const char *terminal_cmd[]  = { "kitty", NULL };
 static const char *networkmanager_cmd[]  = { "networkmanager_dmenu", NULL };
 static const char *lockscreen_cmd[]  = { "betterlockscreen", "-l", NULL };
 
-static const char *dmenu_change_colorscheme_cmd[]  = { ".bin/window_manager/change_colorscheme.py", "-w", "dwm", "-m", "dmenu", NULL };
-static const char *dmenu_keybindings_cmd[]  = { ".bin/window_manager/dmenu_keybindings.py", "-w", "dwm", "-m", "dmenu", NULL };
-static const char *dmenu_window_switcher_cmd[]  = { ".bin/window_manager/dmenu_window_switcher.py", "-m", "dmenu", NULL };
-static const char *dmenu_powermenu_cmd[]  = { ".bin/window_manager/dmenu_powermenu.py", "-w", "dwm", "-m", "dmenu", NULL };
-static const char *dmenu_run_cmd[]  = { ".bin/window_manager/dmenu_run.py","-m", "dmenu", "-t", "kitty", NULL };
-static const char *dmenu_clipboard_cmd[]  = { ".bin/window_manager/dmenu_clipboard.py", "-w", "dwm", "-m", "dmenu", NULL };
-static const char *dmenu_calculator_cmd[]  = { ".config/dwm/scripts/rofi_calc", NULL };
-static const char *dmenu_emoji_cmd[]  = { ".config/dwm/scripts/rofi_emoji", NULL };
-static const char *dmenu_bookmark_cmd[]  = { ".bin/window_manager/dmenu_buku.py", "--menu", "dmenu", "--online-status", "offline", NULL };
-static const char *dmenu_notes_cmd[]  = { ".bin/window_manager/dmenu_zk.py", "--menu", "dmenu", "--terminal", "konsole", NULL };
+static const char *menu_switch_colorscheme_cmd[] = {
+    ".bin/menu_agnostic__utilities/utilities.py",
+    "colorscheme_switcher",
+    "-w",
+    "dwm",
+    "-m",
+    "dmenu",
+    NULL};
+static const char *menu_keybindings_cmd[] = {
+    ".bin/menu_agnostic__utilities/utilities.py",
+    "show_keybindings",
+    "-m",
+    "dmenu",
+    "-w",
+    "dwm",
+    NULL};
+static const char *menu_window_switcher_cmd[] = {
+    ".bin/window_manager/dmenu_window_switcher.py", "-m", "dmenu", NULL};
+static const char *menu_powermenu_cmd[] = {
+    ".bin/menu_agnostic__utilities/utilities.py",
+    "powermenu",
+    "-w",
+    "dwm",
+    "-m",
+    "dmenu",
+    NULL};
+static const char *menu_app_launcher_cmd[] = {
+    ".bin/menu_agnostic__utilities/utilities.py",
+    "app_launcher",
+    "-m",
+    "dmenu",
+    "-t",
+    "kitty",
+    NULL};
+static const char *menu_clipboard_cmd[] = {
+    ".bin/menu_agnostic__utilities/utilities.py",
+    "clipboard",
+    "-m",
+    "dmenu",
+    "-d",
+    "x11",
+    NULL};
+// static const char *dmenu_calculator_cmd[]  = {
+// ".config/dwm/scripts/rofi_calc", NULL };
+static const char *menu_emoji_cmd[] = {".config/dwm/scripts/rofi_emoji", NULL};
+static const char *menu_buku_cmd[] = {
+    ".bin/menu_agnostic__utilities/utilities.py",
+    "buku",
+    "-m",
+    "dmenu",
+    "--online-status",
+    "offline",
+    NULL};
+static const char *menu_zk_cmd[] = {
+    ".bin/menu_agnostic__utilities/utilities.py",
+    "zk",
+    "-m",
+    "dmenu",
+    "-t",
+    "konsole",
+    NULL};
 
 static const char *app_file_cmd[]  = { "thunar", NULL };
 static const char *app_firefox_cmd[]  = { "firefox", NULL };
@@ -442,35 +495,35 @@ static const Key keys[] = {
   { MODKEY,                       XK_Return,     spawn,                  {.v = terminal_cmd } },
   //desc: super + l | lock screen
   { MODKEY,                       XK_l,          spawn,                  {.v = lockscreen_cmd } },
-  //desc: super + n | open network-manager (dmenu)
+  //desc: super + n | open network-manager (menu)
   { MODKEY,                       XK_n,          spawn,                  {.v = networkmanager_cmd } },
 
-  //desc: super + t | open colorscheme menu (dmenu)
-  { MODKEY,                       XK_t,          spawn,                  {.v = dmenu_change_colorscheme_cmd } },
-  //desc: super + k | show all keybindings (dmenu)
-  { MODKEY,                       XK_k,          spawn,                  {.v = dmenu_keybindings_cmd } },
-  //desc: super + w | open window switcher (dmenu)
-  { MODKEY,                       XK_w,          spawn,                  {.v = dmenu_window_switcher_cmd } },
-  //desc: super + x | open powermenu (dmenu)
-  { MODKEY,                       XK_x,          spawn,                  {.v = dmenu_powermenu_cmd } },
-  //desc: super + d | open application launcher (dmenu)
-  // { MODKEY,                       XK_d,          spawn,                  {.v = dmenu_launcher_cmd } },
-  { MODKEY,                       XK_d,          spawn,                  {.v = dmenu_run_cmd } },
-  //desc: super + r | open calculator (dmenu)
-  { MODKEY,                       XK_r,          spawn,                  {.v = dmenu_calculator_cmd } },
-  //desc: super + h | open clipboard (dmenu)
-  { MODKEY,                       XK_h,          spawn,                  {.v = dmenu_clipboard_cmd } },
-  //desc: super + e | show all emoji (dmenu)
-  { MODKEY,                       XK_e,          spawn,                  {.v = dmenu_emoji_cmd } },
-  //desc: super + m | open bookmark manager (dmenu) (buku)
-  { MODKEY,                       XK_m,          spawn,                  {.v = dmenu_bookmark_cmd } },
-  //desc: super + z | open notes manager (dmenu) (zk)
-  { MODKEY,                       XK_z,          spawn,                  {.v = dmenu_notes_cmd } },
+  //desc: super + t | open colorscheme menu (menu)
+  { MODKEY,                       XK_t,          spawn,                  {.v = menu_switch_colorscheme_cmd } },
+  //desc: super + k | show all keybindings (menu)
+  { MODKEY,                       XK_k,          spawn,                  {.v = menu_keybindings_cmd } },
+  //desc: super + w | open window switcher (menu)
+  { MODKEY,                       XK_w,          spawn,                  {.v = menu_window_switcher_cmd } },
+  //desc: super + x | open powermenu (menu)
+  { MODKEY,                       XK_x,          spawn,                  {.v = menu_powermenu_cmd } },
+  //desc: super + d | open application launcher (menu)
+  // { MODKEY,                       XK_d,          spawn,                  {.v = menu_launcher_cmd } },
+  { MODKEY,                       XK_d,          spawn,                  {.v = menu_app_launcher_cmd } },
+  //desc: super + r | open calculator (menu)
+  { MODKEY,                       XK_r,          togglescratch,          {.v = scratch_calc } },
+  //desc: super + h | open clipboard (menu)
+  { MODKEY,                       XK_h,          spawn,                  {.v = menu_clipboard_cmd } },
+  //desc: super + e | show all emoji (menu)
+  { MODKEY,                       XK_e,          spawn,                  {.v = menu_emoji_cmd } },
+  //desc: super + shift + m | open bookmark manager (menu) (buku)
+  { MODKEY|ShiftMask,             XK_b,          spawn,                  {.v = menu_buku_cmd } },
+  //desc: super + z | open notes manager (menu) (zk)
+  { MODKEY|ShiftMask,             XK_z,          spawn,                  {.v = menu_zk_cmd } },
 
   //desc: super + b | toggle bar on/off
   { MODKEY,                       XK_b,          togglebar,              {0} },
-  //desc: super + shift + b | toggle bar position to top/bottom
-  { MODKEY|ShiftMask,             XK_b,          toggletopbar,           {0} },
+  // desc: super + shift + b | toggle bar position to top/bottom
+  // { MODKEY|ShiftMask,             XK_b,          toggletopbar,           {0} },
   // { MODKEY,                       XK_Return,     zoom,                   {0} },
 
   // { MODKEY,                       XK_i,          incnmaster,             {.i = +1 } },
@@ -511,8 +564,12 @@ static const Key keys[] = {
 
   //desc: super + tab | cycle through active tags clockwise
   { MODKEY,                       XK_Tab,        shiftviewclients,       { .i = +1 } },
+  //desc: super + period (.) | cycle through active tags clockwise
+  { MODKEY,                       XK_period,     shiftviewclients,       { .i = +1 } },
   //desc: super + backtick | cycle through active tags anti-clockwise
   { MODKEY,                       XK_grave,      shiftviewclients,       { .i = -1 } },
+  //desc: super + comma (,) | cycle through active tags anti-clockwise
+  { MODKEY,                       XK_comma,      shiftviewclients,       { .i = -1 } },
 
   //desc: super + i | minimize focused window
   { MODKEY,                       XK_i,          showhideclient,         {0} },
@@ -555,10 +612,10 @@ static const Key keys[] = {
   // { MODKEY|ShiftMask,             XK_0,          tag,                    {.ui = ~0 } },
 
   // multi-monitor related
-  { MODKEY,                       XK_comma,      focusmon,               {.i = -1 } },
-  { MODKEY,                       XK_period,     focusmon,               {.i = +1 } },
-  { MODKEY|ShiftMask,             XK_comma,      tagmon,                 {.i = -1 } },
-  { MODKEY|ShiftMask,             XK_period,     tagmon,                 {.i = +1 } },
+  // { MODKEY,                       XK_comma,      focusmon,               {.i = -1 } },
+  // { MODKEY,                       XK_period,     focusmon,               {.i = +1 } },
+  // { MODKEY|ShiftMask,             XK_comma,      tagmon,                 {.i = -1 } },
+  // { MODKEY|ShiftMask,             XK_period,     tagmon,                 {.i = +1 } },
 
   //desc: super + ctrl + space | cycle through layouts clockwise
   { MODKEY|ControlMask,           XK_space,      cyclelayout,            {.i = +1 } },
@@ -582,7 +639,7 @@ static const Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
   /* click                event mask           button          function        argument */
-  { ClkButton,            0,                   Button1,        spawn,          {.v = dmenu_run_cmd } },
+  { ClkButton,            0,                   Button1,        spawn,          {.v = menu_app_launcher_cmd } },
 
   { ClkLtSymbol,          0,                   Button1,        setlayout,      {0} },
   { ClkLtSymbol,          0,                   Button3,        setlayout,      {.v = &layouts[2]} },
@@ -591,7 +648,7 @@ static const Button buttons[] = {
   { ClkWinTitle,          0,                   Button3,        togglewin,      {0} },
   { ClkWinTitle,          0,                   Button2,        zoom,           {0} },
 
-  { ClkStatusText,        0,                   Button1,        spawn,          {.v = dmenu_powermenu_cmd } },
+  { ClkStatusText,        0,                   Button1,        spawn,          {.v = menu_powermenu_cmd } },
   /* placemouse options, choose which feels more natural:
    *    0 - tiled position is relative to mouse cursor
    *    1 - tiled postiion is relative to window center
