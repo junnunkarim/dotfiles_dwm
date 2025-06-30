@@ -383,11 +383,13 @@ static const char *menu_clipboard_cmd[] = {
 // static const char *dmenu_calculator_cmd[]  = {
 // ".config/dwm/scripts/rofi_calc", NULL };
 static const char *menu_emoji_cmd[] = {".config/dwm/scripts/rofi_emoji", NULL};
-static const char *menu_buku_cmd[] = {
+static const char *menu_bookmark_cmd[] = {
     ".bin/menu_agnostic__utilities/utilities.py",
-    "buku",
+    "bookmark_manager",
     "-m",
     "dmenu",
+    "-b",
+    "bkmr",
     "--online-status",
     "offline",
     NULL};
@@ -515,8 +517,8 @@ static const Key keys[] = {
   { MODKEY,                       XK_h,          spawn,                  {.v = menu_clipboard_cmd } },
   //desc: super + e | show all emoji (menu)
   { MODKEY,                       XK_e,          spawn,                  {.v = menu_emoji_cmd } },
-  //desc: super + shift + m | open bookmark manager (menu) (buku)
-  { MODKEY|ShiftMask,             XK_b,          spawn,                  {.v = menu_buku_cmd } },
+  //desc: super + shift + m | open bookmark manager (menu)
+  { MODKEY|ShiftMask,             XK_b,          spawn,                  {.v = menu_bookmark_cmd } },
   //desc: super + z | open notes manager (menu) (zk)
   { MODKEY|ShiftMask,             XK_z,          spawn,                  {.v = menu_zk_cmd } },
 
